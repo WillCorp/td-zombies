@@ -38,6 +38,13 @@ class StrongholdLevel
     /**
      * @var integer
      *
+     * @ORM\Column(name="linesCount", type="integer")
+     */
+    private $linesCount;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="buildingMaxLevel", type="integer")
      */
     private $buildingMaxLevel;
@@ -112,6 +119,29 @@ class StrongholdLevel
     public function getColumnsCount()
     {
         return $this->columnsCount;
+    }
+
+    /**
+     * Set linesCount
+     *
+     * @param integer $linesCount
+     * @return StrongholdLevel
+     */
+    public function setLinesCount($linesCount)
+    {
+        $this->linesCount = $linesCount;
+
+        return $this;
+    }
+
+    /**
+     * Get linesCount
+     *
+     * @return integer 
+     */
+    public function getLinesCount()
+    {
+        return $this->linesCount;
     }
 
     /**
