@@ -1,0 +1,5 @@
+will_corp_zombie:
+    resource: "@WillCorpZombieBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
