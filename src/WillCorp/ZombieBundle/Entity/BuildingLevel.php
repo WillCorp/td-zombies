@@ -52,28 +52,28 @@ class BuildingLevel
     /**
      * @var integer
      *
-     * @ORM\Column(name="roundCount", type="integer")
+     * @ORM\Column(name="round_count", type="integer")
      */
     private $roundCount;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="columnsCount", type="integer")
+     * @ORM\Column(name="columns_count", type="integer")
      */
     private $columnsCount;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="unitCountLimit", type="integer")
+     * @ORM\Column(name="unit_count_limit", type="integer")
      */
     private $unitCountLimit;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="unitCooldown", type="integer")
+     * @ORM\Column(name="unit_ooldown", type="integer")
      */
     private $unitCooldown;
 

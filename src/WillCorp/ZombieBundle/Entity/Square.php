@@ -24,14 +24,14 @@ class Square
     /**
      * @var integer
      *
-     * @ORM\Column(name="coordinateX", type="integer")
+     * @ORM\Column(name="coordinate_x", type="integer")
      */
     private $coordinateX;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="coordinateY", type="integer")
+     * @ORM\Column(name="coordinate_y", type="integer")
      */
     private $coordinateY;
 

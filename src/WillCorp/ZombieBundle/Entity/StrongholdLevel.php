@@ -31,21 +31,21 @@ class StrongholdLevel
     /**
      * @var integer
      *
-     * @ORM\Column(name="columnsCount", type="integer")
+     * @ORM\Column(name="columns_count", type="integer")
      */
     private $columnsCount;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="linesCount", type="integer")
+     * @ORM\Column(name="lines_count", type="integer")
      */
     private $linesCount;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="buildingMaxLevel", type="integer")
+     * @ORM\Column(name="building_max_level", type="integer")
      */
     private $buildingMaxLevel;
 
