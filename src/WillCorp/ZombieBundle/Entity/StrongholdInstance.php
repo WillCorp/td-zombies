@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * StrongholdInstance
  *
- * @ORM\Table()
+ * @ORM\Table(name="stronghold_instance")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\StrongholdInstanceRepository")
  */
 class StrongholdInstance

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BuildingLevel
  *
- * @ORM\Table()
+ * @ORM\Table(name="building_level")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\BuildingLevelRepository")
  */
 class BuildingLevel

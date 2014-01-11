@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BuildingInstance
  *
- * @ORM\Table()
+ * @ORM\Table(name="building_instance")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\BuildingInstanceRepository")
  */
 class BuildingInstance

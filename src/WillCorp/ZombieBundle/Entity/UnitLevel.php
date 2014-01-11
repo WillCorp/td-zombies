@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UnitLevel
  *
- * @ORM\Table()
+ * @ORM\Table(name="unit_level")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\UnitLevelRepository")
  */
 class UnitLevel
