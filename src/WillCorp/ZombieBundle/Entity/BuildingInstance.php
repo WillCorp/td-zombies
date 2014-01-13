@@ -31,6 +31,13 @@ class BuildingInstance
     /**
      * @var integer
      *
+     * @ORM\Column(name="columnStart", type="integer")
+     */
+    private $columnStart;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="unit_count", type="integer")
      */
     private $unitCount;
@@ -98,6 +105,29 @@ class BuildingInstance
     public function getRoundStart()
     {
         return $this->roundStart;
+    }
+
+    /**
+     * Set columnStart
+     *
+     * @param integer $columnStart
+     * @return BuildingInstance
+     */
+    public function setColumnStart($columnStart)
+    {
+        $this->columnStart = $columnStart;
+
+        return $this;
+    }
+
+    /**
+     * Get columnStart
+     *
+     * @return integer 
+     */
+    public function getColumnStart()
+    {
+        return $this->columnStart;
     }
 
     /**

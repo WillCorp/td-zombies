@@ -31,28 +31,34 @@ class LoadBuildingInstanceData extends AbstractFixture implements OrderedFixture
             'william.sauvan' => array(
                 'income' => array(
                     'round' => 1,
+                    'column' => 1,
                     'units' => 1,
                 ),
                 'defense' => array(
                     'round' => 2,
+                    'column' => 2,
                     'units' => 1,
                 ),
                 'attack' => array(
                     'round' => 3,
+                    'column' => 1,
                     'units' => 1,
                 ),
             ),
             'yann.eugone' => array(
                 'income' => array(
                     'round' => 1,
+                    'column' => 1,
                     'units' => 1,
                 ),
                 'defense' => array(
                     'round' => 2,
+                    'column' => 2,
                     'units' => 1,
                 ),
                 'attack' => array(
                     'round' => 3,
+                    'column' => 1,
                     'units' => 1,
                 ),
             ),
@@ -65,6 +71,7 @@ class LoadBuildingInstanceData extends AbstractFixture implements OrderedFixture
                     ->setStronghold($stronghold)
                     ->setLevel($this->getReference('building-' . $buildingName . '-level-1'))
                     ->setRoundStart($buildingData['round'])
+                    ->setColumnStart($buildingData['column'])
                     ->setUnitCount($buildingData['units'])
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(new \DateTime());

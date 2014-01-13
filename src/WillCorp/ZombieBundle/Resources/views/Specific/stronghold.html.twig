@@ -1,0 +1,20 @@
+{% extends 'WillCorpZombieBundle:Layout:columns-one.html.twig' %}
+
+{% block page_body %}
+  coucou c'est moi
+  {{ player.username }}
+  then
+  {{ player.stronghold.id }}
+  
+  <table>
+    {% for line in arrayvalues %}
+    <tr>
+      {% for value in line %}
+      <td>
+        {{ value }}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  
+{% endblock %}
