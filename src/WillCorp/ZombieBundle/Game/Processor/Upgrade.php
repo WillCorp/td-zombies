@@ -49,7 +49,9 @@ class Upgrade
             if (!Resources::hasEnoughResources($stronghold->getResources(), $newStrongholdLevel->getCost())) {
                 throw new \Exception('You have not enough resources !');
             }
-            $stronghold->setLevel($newStrongholdLevel);
+            $stronghold
+                ->setResources(Resources::subtractResources($stronghold->getResources(), $newStrongholdLevel->getCost()))
+                ->setLevel($newStrongholdLevel);
         }
     }
 
@@ -67,10 +69,13 @@ class Upgrade
         $newBuildingLevel = $buildingLevel->getBuilding()->getLevel($buildingLevel->getLevel() + $increment);
 
         if ($newBuildingLevel) {
-            if (!Resources::hasEnoughResources($building->getStronghold()->getResources(), $newBuildingLevel->getCost())) {
+            $strongholdResources = $building->getStronghold()->getResources();
+            if (!Resources::hasEnoughResources($strongholdResources, $newBuildingLevel->getCost())) {
                 throw new \Exception('You have not enough resources !');
             }
-            $building->setLevel($newBuildingLevel);
+            $building
+                ->setResources(Resources::subtractResources($strongholdResources, $newBuildingLevel->getCost()))
+                ->setLevel($newBuildingLevel);
         }
     }
 

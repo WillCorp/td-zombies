@@ -55,4 +55,28 @@ final class Resources
 
         return $enough;
     }
+
+    /**
+     * Indicates whether there is enough resources in $disposal to handle $cost
+     *
+     * @param array $supply The resources supply
+     * @param array $cost   The resources cost
+     *
+     * @return array
+     * @throws \Exception If there is a missing resource in $supply
+     * @throws \Exception If there is not enough resources in $supply
+     */
+    public static function subtractResources(array $supply, array $cost)
+    {
+        if (!static::hasEnoughResources($supply, $cost)) {
+            throw new \Exception(sprintf('There is not enough resource for subtraction'));
+        }
+
+        $newSupply = $supply;
+        foreach ($cost as $resource => $value) {
+            $newSupply[$resource] = $newSupply[$resource] - $value;
+        }
+
+        return $newSupply;
+    }
 }

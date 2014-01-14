@@ -13,7 +13,7 @@ use WillCorp\ZombieBundle\Game\Helper\Resources;
 class ResourcesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test the "hasEnoughResources" method
+     * Test the "hasEnoughResources" method results
      *
      * @param array   $disposal
      * @param array   $cost
@@ -30,6 +30,43 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->assertFalse($result);
         }
+    }
+
+    /**
+     * Test the "subtractResources" method results
+     *
+     * @param array $supply
+     * @param array $cost
+     * @param array $rest
+     *
+     * @dataProvider testSubtractResourcesDataProvider
+     */
+    public function testSubtractResources(array $supply, array $cost, array $rest)
+    {
+        $result = Resources::subtractResources($supply, $cost);
+
+        $this->assertSameSize($rest, $result);
+        foreach ($rest as $resource => $value) {
+            $this->assertArrayHasKey($resource, $result);
+            $this->assertSame($value, $result[$resource]);
+        }
+    }
+
+    /**
+     * Test the "subtractResources" method exceptions
+     *
+     * @param array  $supply
+     * @param array  $cost
+     * @param string $exceptionName
+     * @param string $exceptionMessage
+     *
+     * @dataProvider testSubtractResourcesExceptionsDataProvider
+     */
+    public function testSubtractResourcesExceptions(array $supply, array $cost, $exceptionName, $exceptionMessage)
+    {
+        $this->setExpectedException($exceptionName, $exceptionMessage);
+
+        Resources::subtractResources($supply, $cost);
     }
 
     /**
@@ -86,5 +123,58 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
                 false
             ),
         );
+    }
+
+    /**
+     * Data provider for the "testSubtractResources" method
+     *
+     * @return array
+     */
+    public function testSubtractResourcesDataProvider()
+    {
+        return array(
+            //Single resources
+            array(
+                array(Resources::ENERGY => 100),
+                array(Resources::ENERGY => 50),
+                array(Resources::ENERGY => 50)
+            ),
+
+            //Multiple resources (same keys)
+            array(
+                array(Resources::ENERGY => 100, Resources::METAL => 100),
+                array(Resources::ENERGY => 50, Resources::METAL => 25),
+                array(Resources::ENERGY => 50, Resources::METAL => 75)
+            ),
+
+            //Multiple resources (not same keys)
+            array(
+                array(Resources::ENERGY => 100, Resources::METAL => 100),
+                array(Resources::ENERGY => 50),
+                array(Resources::ENERGY => 50, Resources::METAL => 100)
+            ),
+        );
+    }
+
+    /**
+     * Data provider for the "testSubtractResourcesExceptions" method
+     *
+     * @return array
+     */
+    public function testSubtractResourcesExceptionsDataProvider()
+    {
+        $data = array();
+        foreach ($this->testHasEnoughResourcesDataProvider() as $_data) {
+            if (!$_data[2]) {
+                $data[] = array(
+                    $_data[0],
+                    $_data[1],
+                    'Exception',
+                    'There is not enough resource for subtraction'
+                );
+            }
+        }
+
+        return $data;
     }
 }
