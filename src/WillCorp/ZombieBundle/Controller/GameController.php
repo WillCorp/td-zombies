@@ -36,7 +36,7 @@ class GameController extends Controller
 
         $error = null;
         try {
-            $this->getGameMecanic()->upgradeStronghold($stronghold);
+            $this->getGameMechanic()->upgradeStronghold($stronghold);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
@@ -62,7 +62,7 @@ class GameController extends Controller
 
         $error = null;
         try {
-            $this->getGameMecanic()->upgradeBuilding($building);
+            $this->getGameMechanic()->upgradeBuilding($building);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }

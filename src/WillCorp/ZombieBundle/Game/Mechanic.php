@@ -8,11 +8,11 @@ use WillCorp\ZombieBundle\Entity\BuildingInstance;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 
 /**
- * Class Mecanic
+ * Class Mechanic
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
  */
-class Mecanic
+class Mechanic
 {
     /**
      * Doctrine entity manager

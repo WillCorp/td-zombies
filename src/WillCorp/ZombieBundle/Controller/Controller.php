@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use WillCorp\ZombieBundle\Game\Mecanic;
+use WillCorp\ZombieBundle\Game\Mechanic;
 
 /**
  * Class Controller
@@ -17,13 +17,13 @@ use WillCorp\ZombieBundle\Game\Mecanic;
 class Controller extends BaseController
 {
     /**
-     * Return the game mecanic service object
+     * Return the game mechanic service object
      *
-     * @return Mecanic
+     * @return Mechanic
      */
-    public function getGameMecanic()
+    public function getGameMechanic()
     {
-        return $this->get('will_corp_zombie.game.mecanic');
+        return $this->get('will_corp_zombie.game.mechanic');
     }
 
     /**
