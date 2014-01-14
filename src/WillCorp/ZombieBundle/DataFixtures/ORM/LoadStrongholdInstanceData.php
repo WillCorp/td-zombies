@@ -43,9 +43,15 @@ class LoadStrongholdInstanceData extends AbstractFixture implements OrderedFixtu
                 ->setPlayer($this->getReference('player-' . $playerName))
                 ->setSquare($this->getReference(sprintf('square-%d-%d', $strongholdData['coord_x'], $strongholdData['coord_y'])))
                 ->setLevel($this->getReference('stronghold-level-1'))
+                ->setResources(array(
+                    'energy' => 900,
+                    'metal'  => 900,
+                ))
                 ->setColumns(array(
                     1 => 100
-                ));
+                ))
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime());
 
             $manager->persist($stronghold);
 

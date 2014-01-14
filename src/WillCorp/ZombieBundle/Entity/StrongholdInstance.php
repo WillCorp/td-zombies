@@ -29,6 +29,27 @@ class StrongholdInstance
     private $columns;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="resources", type="json_array")
+     */
+    private $resources;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
+    /**
      * @var Player
      *
      * @ORM\OneToOne(targetEntity="WillCorp\ZombieBundle\Entity\Player", inversedBy="stronghold")
@@ -99,6 +120,75 @@ class StrongholdInstance
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    /**
+     * Set resources
+     *
+     * @param array $resources
+     * @return StrongholdInstance
+     */
+    public function setResources($resources)
+    {
+        $this->resources = $resources;
+
+        return $this;
+    }
+
+    /**
+     * Get resources
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        return $this->resources;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return StrongholdInstance
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return StrongholdInstance
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 
     /**
