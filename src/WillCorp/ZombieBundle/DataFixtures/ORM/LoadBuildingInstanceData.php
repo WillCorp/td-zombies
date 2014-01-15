@@ -73,6 +73,10 @@ class LoadBuildingInstanceData extends AbstractFixture implements OrderedFixture
                     ->setRoundStart($buildingData['round'])
                     ->setColumnStart($buildingData['column'])
                     ->setUnitCount($buildingData['units'])
+                    ->setResources(array(
+                        'energy' => 300,
+                        'metal'  => 300,
+                    ))
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(new \DateTime());
 

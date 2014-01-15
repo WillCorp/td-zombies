@@ -29,6 +29,13 @@ class StrongholdLevel
     private $level;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="cost", type="json_array")
+     */
+    private $cost;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="columns_count", type="integer")
@@ -96,6 +103,29 @@ class StrongholdLevel
     public function getLevel()
     {
         return $this->level;
+    }
+
+    /**
+     * Set cost
+     *
+     * @param array $cost
+     * @return StrongholdLevel
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * Get cost
+     *
+     * @return array
+     */
+    public function getCost()
+    {
+        return $this->cost;
     }
 
     /**

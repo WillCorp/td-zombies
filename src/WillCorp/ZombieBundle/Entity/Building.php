@@ -47,7 +47,7 @@ class Building
      *
      * @ORM\OneToMany(targetEntity="WillCorp\ZombieBundle\Entity\BuildingLevel", mappedBy="building")
      */
-    private $buildingInstances;
+    private $levels;
 
 
     /**
@@ -55,7 +55,7 @@ class Building
      */
     public function __construct()
     {
-        $this->buildingInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->levels = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -138,35 +138,56 @@ class Building
     }
 
     /**
-     * Add buildingInstances
+     * Add level
      *
-     * @param BuildingLevel $buildingInstances
+     * @param BuildingLevel $level
      * @return Building
      */
-    public function addBuildingInstance(BuildingLevel $buildingInstances)
+    public function addLevel(BuildingLevel $level)
     {
-        $this->buildingInstances[] = $buildingInstances;
+        $this->levels[] = $level;
 
         return $this;
     }
 
     /**
-     * Remove buildingInstances
+     * Remove level
      *
-     * @param BuildingLevel $buildingInstances
+     * @param BuildingLevel $level
+     * @return Building
      */
-    public function removeBuildingInstance(BuildingLevel $buildingInstances)
+    public function removeLevel(BuildingLevel $level)
     {
-        $this->buildingInstances->removeElement($buildingInstances);
+        $this->levels->removeElement($level);
+
+        return $this;
     }
 
     /**
-     * Get buildingInstances
+     * Get levels
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getBuildingInstances()
+    public function getLevels()
     {
-        return $this->buildingInstances;
+        return $this->levels;
+    }
+
+    /**
+     * Get a level instance for a given $level number
+     *
+     * @param integer $levelNum The level number
+     *
+     * @return BuildingLevel|false
+     */
+    public function getLevel($levelNum)
+    {
+        foreach ($this->levels as $level) {
+            if ($levelNum == $level->getLevel()) {
+                return $level;
+            }
+        }
+
+        return false;
     }
 }

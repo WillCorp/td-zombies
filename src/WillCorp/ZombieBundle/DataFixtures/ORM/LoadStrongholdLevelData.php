@@ -31,6 +31,10 @@ class LoadStrongholdLevelData extends AbstractFixture implements OrderedFixtureI
             $level = new StrongholdLevel();
             $level
                 ->setLevel($i)
+                ->setCost(array(
+                    'energy' => $i * 100,
+                    'metal'  => $i * 100,
+                ))
                 ->setBuildingMaxLevel($i)
                 ->setColumnsCount($i + 2)
                 ->setLinesCount($i + 5);

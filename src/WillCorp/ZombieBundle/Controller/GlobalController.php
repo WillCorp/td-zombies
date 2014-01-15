@@ -18,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * @author    Yann Eugoné <yann.eugone@gmail.com>
  * @copyright 2013 © Cloudy-Web-Creations <http://www.cloudy-web-creations.com>
  */
-class GlobalController
+class GlobalController extends Controller
 {
     /**
      * @Route("/", name="homepage")
