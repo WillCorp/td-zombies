@@ -138,26 +138,29 @@ class Building
     }
 
     /**
-     * Add levels
+     * Add level
      *
-     * @param BuildingLevel $levels
+     * @param BuildingLevel $level
      * @return Building
      */
-    public function addBuildingInstance(BuildingLevel $levels)
+    public function addLevel(BuildingLevel $level)
     {
-        $this->levels[] = $levels;
+        $this->levels[] = $level;
 
         return $this;
     }
 
     /**
-     * Remove levels
+     * Remove level
      *
-     * @param BuildingLevel $levels
+     * @param BuildingLevel $level
+     * @return Building
      */
-    public function removeBuildingInstance(BuildingLevel $levels)
+    public function removeLevel(BuildingLevel $level)
     {
-        $this->levels->removeElement($levels);
+        $this->levels->removeElement($level);
+
+        return $this;
     }
 
     /**

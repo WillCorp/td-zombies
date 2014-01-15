@@ -263,12 +263,13 @@ class StrongholdInstance
     /**
      * Add buildings
      *
-     * @param BuildingInstance $buildings
+     * @param BuildingInstance $building
      * @return StrongholdInstance
      */
-    public function addBuilding(BuildingInstance $buildings)
+    public function addBuilding(BuildingInstance $building)
     {
-        $this->buildings[] = $buildings;
+        $building->setStronghold($this);
+        $this->buildings[] = $building;
 
         return $this;
     }
@@ -276,11 +277,11 @@ class StrongholdInstance
     /**
      * Remove buildings
      *
-     * @param BuildingInstance $buildings
+     * @param BuildingInstance $building
      */
-    public function removeBuilding(BuildingInstance $buildings)
+    public function removeBuilding(BuildingInstance $building)
     {
-        $this->buildings->removeElement($buildings);
+        $this->buildings->removeElement($building);
     }
 
     /**
