@@ -70,6 +70,26 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test the "subtractResources" method results
+     *
+     * @param array $supply
+     * @param array $extra
+     * @param array $expectedResult
+     *
+     * @dataProvider testAddResourcesDataProvider
+     */
+    public function testAddResources(array $supply, array $extra, array $expectedResult)
+    {
+        $result = Resources::addResources($supply, $extra);
+
+        $this->assertSameSize($expectedResult, $result);
+        foreach ($expectedResult as $resource => $value) {
+            $this->assertArrayHasKey($resource, $result);
+            $this->assertSame($value, $result[$resource]);
+        }
+    }
+
+    /**
      * Data provider for the "testHasEnoughResources" method
      *
      * @return array
@@ -176,5 +196,41 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
         }
 
         return $data;
+    }
+
+    /**
+     * Data provider for the "testAddResources" method
+     *
+     * @return array
+     */
+    public function testAddResourcesDataProvider()
+    {
+        return array(
+            //Single resources
+            array(
+                array(Resources::ENERGY => 100),
+                array(Resources::ENERGY => 50),
+                array(Resources::ENERGY => 150)
+            ),
+
+            //Multiple resources (same keys)
+            array(
+                array(Resources::ENERGY => 100, Resources::METAL => 100),
+                array(Resources::ENERGY => 50, Resources::METAL => 25),
+                array(Resources::ENERGY => 150, Resources::METAL => 125)
+            ),
+
+            //Multiple resources (not same keys)
+            array(
+                array(Resources::ENERGY => 100, Resources::METAL => 100),
+                array(Resources::ENERGY => 50),
+                array(Resources::ENERGY => 150, Resources::METAL => 100)
+            ),
+            array(
+                array(Resources::ENERGY => 50),
+                array(Resources::ENERGY => 100, Resources::METAL => 100),
+                array(Resources::ENERGY => 150, Resources::METAL => 100)
+            ),
+        );
     }
 }
