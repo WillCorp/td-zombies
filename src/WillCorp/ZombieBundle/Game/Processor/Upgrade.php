@@ -4,6 +4,7 @@ namespace WillCorp\ZombieBundle\Game\Processor;
 
 use Doctrine\ORM\EntityManager;
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
+use WillCorp\ZombieBundle\Entity\BuildingLevel;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 use WillCorp\ZombieBundle\Entity\StrongholdLevel;
 use WillCorp\ZombieBundle\Game\Helper\Resources;
@@ -46,12 +47,15 @@ class Upgrade
         $newStrongholdLevel = $this->getStrongholdLevel($stronghold->getLevel()->getLevel() + $increment);
 
         if ($newStrongholdLevel) {
-            if (!Resources::hasEnoughResources($stronghold->getResources(), $newStrongholdLevel->getCost())) {
+            $cost = $this->getTotalCost($stronghold->getLevel()->getLevel(), $this->strongholdLevels, $increment);
+            if (!Resources::hasEnoughResources($stronghold->getResources(), $cost)) {
                 throw new \Exception('You have not enough resources !');
             }
             $stronghold
-                ->setResources(Resources::subtractResources($stronghold->getResources(), $newStrongholdLevel->getCost()))
-                ->setLevel($newStrongholdLevel);
+                ->setLevel($newStrongholdLevel)
+                ->setResources(Resources::subtractResources($stronghold->getResources(), $cost));
+        } else {
+            throw new \Exception('The required stronghold level is not available !');
         }
     }
 
@@ -70,12 +74,16 @@ class Upgrade
 
         if ($newBuildingLevel) {
             $strongholdResources = $building->getStronghold()->getResources();
-            if (!Resources::hasEnoughResources($strongholdResources, $newBuildingLevel->getCost())) {
+            $cost = $this->getTotalCost($building->getLevel()->getLevel(), $buildingLevel->getBuilding()->getLevels(), $increment);
+            if (!Resources::hasEnoughResources($strongholdResources, $cost)) {
                 throw new \Exception('You have not enough resources !');
             }
             $building
-                ->setResources(Resources::subtractResources($strongholdResources, $newBuildingLevel->getCost()))
-                ->setLevel($newBuildingLevel);
+                ->setLevel($newBuildingLevel)
+                ->getStronghold()
+                    ->setResources(Resources::subtractResources($strongholdResources, $cost));
+        } else {
+            throw new \Exception('The required building level is not available !');
         }
     }
 
@@ -93,5 +101,38 @@ class Upgrade
         }
 
         return false;
+    }
+
+    /**
+     * Return the total cost for upgrading $increment from $currentLevel
+     * Use costs stored in $objects
+     *
+     * @param integer                           $currentLevel
+     * @param StrongholdLevel[]|BuildingLevel[] $objects
+     * @param integer                           $increment
+     *
+     * @return array
+     */
+    protected function getTotalCost($currentLevel, $objects, $increment)
+    {
+        $objectsByLevel = array();
+        foreach ($objects as $object) {
+            $objectsByLevel[$object->getLevel()] = $object;
+        }
+        /* @var $objectsByLevel StrongholdLevel[]|BuildingLevel[] */
+
+        $totalCost = array();
+        for ($i=$currentLevel+1 ; $i<=$currentLevel+$increment ; $i++) {
+            $cost = $objectsByLevel[$i]->getCost();
+            foreach ($cost as $resource => $value) {
+                if (!array_key_exists($resource, $totalCost)) {
+                    $totalCost[$resource] = 0;
+                }
+
+                $totalCost[$resource] += $value;
+            }
+        }
+
+        return $totalCost;
     }
 }
