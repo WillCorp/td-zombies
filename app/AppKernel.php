@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
 
             new WillCorp\ZombieBundle\WillCorpZombieBundle(),
         );
