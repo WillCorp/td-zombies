@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * Unit
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\UnitRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class Unit
 {
@@ -25,6 +28,8 @@ class Unit
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Serialize\Expose
      */
     private $name;
 
@@ -32,6 +37,8 @@ class Unit
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     *
+     * @Serialize\Expose
      */
     private $description;
 
@@ -39,6 +46,8 @@ class Unit
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255)
+     *
+     * @Serialize\Expose
      */
     private $image;
 

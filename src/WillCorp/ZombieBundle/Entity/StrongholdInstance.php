@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * StrongholdInstance
  *
  * @ORM\Table(name="stronghold_instance")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\StrongholdInstanceRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class StrongholdInstance
 {
@@ -25,6 +28,8 @@ class StrongholdInstance
      * @var array
      *
      * @ORM\Column(name="columns", type="json_array")
+     *
+     * @Serialize\Expose
      */
     private $columns;
 
@@ -32,6 +37,8 @@ class StrongholdInstance
      * @var array
      *
      * @ORM\Column(name="resources", type="json_array")
+     *
+     * @Serialize\Expose
      */
     private $resources;
 
@@ -62,6 +69,8 @@ class StrongholdInstance
      *
      * @ORM\OneToOne(targetEntity="WillCorp\ZombieBundle\Entity\Square", inversedBy="stronghold")
      * @ORM\JoinColumn(name="square_id", referencedColumnName="id")
+     *
+     * @Serialize\Expose
      */
     private $square;
 
@@ -70,6 +79,8 @@ class StrongholdInstance
      *
      * @ORM\ManyToOne(targetEntity="WillCorp\ZombieBundle\Entity\StrongholdLevel", inversedBy="strongholdInstances")
      * @ORM\JoinColumn(name="stronghold_level_id", referencedColumnName="id")
+     *
+     * @Serialize\Expose
      */
     private $level;
 
@@ -77,6 +88,7 @@ class StrongholdInstance
      * @var BuildingInstance[]
      *
      * @ORM\OneToMany(targetEntity="WillCorp\ZombieBundle\Entity\BuildingInstance", mappedBy="stronghold")
+     * @Serialize\Expose
      */
     private $buildings;
 

@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * BuildingInstance
  *
  * @ORM\Table(name="building_instance")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\BuildingInstanceRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class BuildingInstance
 {
@@ -69,6 +72,8 @@ class BuildingInstance
      *
      * @ORM\ManyToOne(targetEntity="WillCorp\ZombieBundle\Entity\BuildingLevel", inversedBy="buildingInstances")
      * @ORM\JoinColumn(name="building_level_id", referencedColumnName="id")
+     *
+     * @Serialize\Expose
      */
     private $level;
 

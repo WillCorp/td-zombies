@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * UnitLevel
  *
  * @ORM\Table(name="unit_level")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\UnitLevelRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class UnitLevel
 {
@@ -25,6 +28,8 @@ class UnitLevel
      * @var integer
      *
      * @ORM\Column(name="level", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $level;
 
@@ -32,6 +37,8 @@ class UnitLevel
      * @var integer
      *
      * @ORM\Column(name="speed", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $speed;
 
@@ -39,6 +46,8 @@ class UnitLevel
      * @var integer
      *
      * @ORM\Column(name="health", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $health;
 
@@ -46,6 +55,8 @@ class UnitLevel
      * @var integer
      *
      * @ORM\Column(name="damages", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $damages;
 
@@ -54,6 +65,8 @@ class UnitLevel
      *
      * @ORM\ManyToOne(targetEntity="WillCorp\ZombieBundle\Entity\Unit", inversedBy="levels")
      * @ORM\JoinColumn(name="unit_id", referencedColumnName="id")
+     *
+     * @Serialize\Expose
      */
     private $unit;
 

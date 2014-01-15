@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * BuildingLevel
  *
  * @ORM\Table(name="building_level")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\BuildingLevelRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class BuildingLevel
 {
@@ -25,6 +28,8 @@ class BuildingLevel
      * @var integer
      *
      * @ORM\Column(name="level", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $level;
 
@@ -32,6 +37,8 @@ class BuildingLevel
      * @var array
      *
      * @ORM\Column(name="cost", type="json_array")
+     *
+     * @Serialize\Expose
      */
     private $cost;
 
@@ -39,6 +46,8 @@ class BuildingLevel
      * @var array
      *
      * @ORM\Column(name="income", type="json_array")
+     *
+     * @Serialize\Expose
      */
     private $income;
 
@@ -46,6 +55,8 @@ class BuildingLevel
      * @var integer
      *
      * @ORM\Column(name="defense", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $defense;
 
@@ -53,6 +64,8 @@ class BuildingLevel
      * @var integer
      *
      * @ORM\Column(name="round_count", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $roundCount;
 
@@ -60,6 +73,8 @@ class BuildingLevel
      * @var integer
      *
      * @ORM\Column(name="columns_count", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $columnsCount;
 
@@ -67,6 +82,8 @@ class BuildingLevel
      * @var integer
      *
      * @ORM\Column(name="unit_count_limit", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $unitCountLimit;
 
@@ -74,6 +91,8 @@ class BuildingLevel
      * @var integer
      *
      * @ORM\Column(name="unit_ooldown", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $unitCooldown;
 
@@ -82,6 +101,8 @@ class BuildingLevel
      *
      * @ORM\ManyToOne(targetEntity="WillCorp\ZombieBundle\Entity\Building", inversedBy="levels")
      * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
+     *
+     * @Serialize\Expose
      */
     private $building;
 
@@ -97,6 +118,8 @@ class BuildingLevel
      *
      * @ORM\ManyToOne(targetEntity="WillCorp\ZombieBundle\Entity\UnitLevel", inversedBy="buildings")
      * @ORM\JoinColumn(name="unit_id", referencedColumnName="id")
+     *
+     * @Serialize\Expose
      */
     private $unit;
 

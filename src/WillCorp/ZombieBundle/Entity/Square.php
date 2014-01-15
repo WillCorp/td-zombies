@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * Square
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\SquareRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class Square
 {
@@ -25,6 +28,8 @@ class Square
      * @var integer
      *
      * @ORM\Column(name="coordinate_x", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $coordinateX;
 
@@ -32,6 +37,8 @@ class Square
      * @var integer
      *
      * @ORM\Column(name="coordinate_y", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $coordinateY;
 

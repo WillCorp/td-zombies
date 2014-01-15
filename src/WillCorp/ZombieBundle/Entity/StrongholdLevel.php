@@ -3,12 +3,15 @@
 namespace WillCorp\ZombieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 
 /**
  * StrongholdLevel
  *
  * @ORM\Table(name="stronghold_level")
  * @ORM\Entity(repositoryClass="WillCorp\ZombieBundle\Repository\StrongholdLevelRepository")
+ *
+ * @Serialize\ExclusionPolicy("all")
  */
 class StrongholdLevel
 {
@@ -25,6 +28,8 @@ class StrongholdLevel
      * @var integer
      *
      * @ORM\Column(name="level", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $level;
 
@@ -32,6 +37,8 @@ class StrongholdLevel
      * @var array
      *
      * @ORM\Column(name="cost", type="json_array")
+     *
+     * @Serialize\Expose
      */
     private $cost;
 
@@ -39,6 +46,8 @@ class StrongholdLevel
      * @var integer
      *
      * @ORM\Column(name="columns_count", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $columnsCount;
 
@@ -46,6 +55,8 @@ class StrongholdLevel
      * @var integer
      *
      * @ORM\Column(name="lines_count", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $linesCount;
 
@@ -53,6 +64,8 @@ class StrongholdLevel
      * @var integer
      *
      * @ORM\Column(name="building_max_level", type="integer")
+     *
+     * @Serialize\Expose
      */
     private $buildingMaxLevel;
 
