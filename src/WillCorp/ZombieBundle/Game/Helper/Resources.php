@@ -14,7 +14,7 @@ namespace WillCorp\ZombieBundle\Game\Helper;
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
  */
-final class Resources
+class Resources
 {
     const ENERGY = 'energy';
     const METAL = 'metal';
