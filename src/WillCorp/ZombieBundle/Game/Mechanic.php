@@ -75,12 +75,13 @@ class Mechanic
     /**
      * Move a building instance
      *
-     * @param BuildingInstance $building  The building to upgrade
-     * @param integer          $increment The upgrade gap
+     * @param BuildingInstance $building  The building to move
+     * @param int $newRoundStart
+     * @param int $newColumnStart
      */
-    public function moveBuilding(BuildingInstance $building, $newRoundStart, $newColumnStart, StrongholdInstance $stronghold)
+    public function moveBuilding(BuildingInstance $building, $newRoundStart, $newColumnStart)
     {
-        $this->movesProcessor->processBuilding($building, $newRoundStart, $newColumnStart, $stronghold);
+        $this->movesProcessor->processBuilding($building, $newRoundStart, $newColumnStart);
         $this->em->persist($building);
         $this->em->flush();
     }

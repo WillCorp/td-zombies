@@ -23,6 +23,7 @@ class MovesTest extends \PHPUnit_Framework_TestCase
      * @param int $b2_columnstart
      * @param int $b2_roundcount
      * @param int $b2_columncount
+     * @param boolean $can
      *
      * @dataProvider testCanMoveBuildingDataProvider
      */

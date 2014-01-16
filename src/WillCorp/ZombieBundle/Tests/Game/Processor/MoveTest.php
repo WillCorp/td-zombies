@@ -19,7 +19,7 @@ use WillCorp\ZombieBundle\Entity\BuildingInstance;
 class MoveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stronghold[]
+     * @var Stronghold
      */
     protected $stronghold;
 
@@ -73,8 +73,6 @@ class MoveTest extends \PHPUnit_Framework_TestCase
      */
     public function testMoveOverOther($countRound, $countColumn, $startRound, $startColumn, $newRoundStart, $newColumnStart)
     {
-        //$goodbuilding = $this->getBuildingInstanceGood();
-        //$badbuilding = $this->getBuildingInstanceBad();
 
         $building = $this->getBuildingInstance($countRound, $countColumn, $startRound, $startColumn);
       
@@ -168,6 +166,8 @@ class MoveTest extends \PHPUnit_Framework_TestCase
         $repository = $this->getMockBuilder('WillCorp\ZombieBundle\Repository\StrongholdInstanceRepository')
             ->disableOriginalConstructor()
             ->getMock();
+        
+        //commented for now, will be use later on better tests
         /*$repository
             ->expects($this->once())
             ->method('findAll')
@@ -176,6 +176,8 @@ class MoveTest extends \PHPUnit_Framework_TestCase
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
+        
+        //commented for now, will be use later on better tests
         /*$entityManager
             ->expects($this->once())
             ->method('getRepository')

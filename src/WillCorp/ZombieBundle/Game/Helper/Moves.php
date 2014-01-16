@@ -8,7 +8,7 @@ use Proxies\__CG__\WillCorp\ZombieBundle\Entity\BuildingInstance;
  *
  * @author Sauvan William <sauvan.william@gmail.com>
  */
-final class Moves
+class Moves
 {
 
     /**
@@ -43,9 +43,9 @@ final class Moves
             ||
             ($b1_columnstart > $b2_columnstart + $b2_columncount - 1) //top edge
             ||
-            ($b2_columnstart > $b1_columnstart + $b1_columncount - 1) //bottom edge
-        )
+            ($b2_columnstart > $b1_columnstart + $b1_columncount - 1)){ //bottom edge
           $isFree = true;
+        }
         
 
         return $isFree;
