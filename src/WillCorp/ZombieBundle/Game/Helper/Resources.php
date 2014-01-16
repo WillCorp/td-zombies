@@ -106,4 +106,24 @@ class Resources
 
         return $newSupply;
     }
+
+    /**
+     * Multiply the $resources by $modifier and return the result
+     *
+     * @param array   $resources The resources to multiply
+     * @param integer $modifier  The multiplication modifier
+     *
+     * @return array
+     */
+    public static function multiplyResources(array $resources, $modifier)
+    {
+        $modifier = abs(intval($modifier));
+
+        $newSupply = $resources;
+        foreach ($resources as $resource => $value) {
+            $newSupply[$resource] *= $modifier;
+        }
+
+        return $newSupply;
+    }
 }

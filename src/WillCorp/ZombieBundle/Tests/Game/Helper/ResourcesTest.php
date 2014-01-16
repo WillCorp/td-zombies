@@ -97,6 +97,26 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test the "multiplyResources" method results
+     *
+     * @param array   $resources
+     * @param integer $modifier
+     * @param array   $expectedResult
+     *
+     * @dataProvider testMultiplyResourcesDataProvider
+     */
+    public function testMultiplyResources(array $resources, $modifier, array $expectedResult)
+    {
+        $result = Resources::multiplyResources($resources, $modifier);
+
+        $this->assertSameSize($expectedResult, $result);
+        foreach ($expectedResult as $resource => $value) {
+            $this->assertArrayHasKey($resource, $result);
+            $this->assertSame($value, $result[$resource]);
+        }
+    }
+
+    /**
      * Data provider for the "testHasEnoughResources" method
      *
      * @return array
@@ -239,5 +259,36 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
                 array(Resources::ENERGY => 150, Resources::METAL => 100)
             ),
         );
+    }
+
+    /**
+     * Data provider for the "testMultiplyResources" method
+     *
+     * @return array
+     */
+    public function testMultiplyResourcesDataProvider()
+    {
+        return array(
+            array(
+                array(Resources::ENERGY => 100),
+                0,
+                array(Resources::ENERGY => 0)
+            ),
+            array(
+                array(Resources::ENERGY => 100),
+                2,
+                array(Resources::ENERGY => 200)
+            ),
+            array(
+                array(Resources::ENERGY => 100),
+                -3,
+                array(Resources::ENERGY => 300)
+            ),
+            array(
+                array(Resources::ENERGY => 100),
+                6.789,
+                array(Resources::ENERGY => 600)
+            ),
+       );
     }
 }
