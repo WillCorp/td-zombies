@@ -11,6 +11,7 @@ namespace WillCorp\ZombieBundle\Game\Processor;
 
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
+use WillCorp\ZombieBundle\Game\Helper\Date;
 use WillCorp\ZombieBundle\Game\Helper\Resources;
 
 /**
@@ -20,6 +21,8 @@ use WillCorp\ZombieBundle\Game\Helper\Resources;
  */
 class Collector
 {
+    const COLLECT_INTERVAL = '300';
+
     /**
      * Collect the resources of a stronghold's buildings
      * Add the stronghold's buildings income to the stronghold's resources
@@ -43,9 +46,15 @@ class Collector
     {
         $stronghold = $building->getStronghold();
 
-        $stronghold->setResources(Resources::addResources(
-            $stronghold->getResources(),
-            $building->getLevel()->getIncome()
-        ));
+        $collectCount = floor(Date::getElapsedTime($building->getUpdatedAt(), Date::FORMAT_SECONDS) / static::COLLECT_INTERVAL);
+
+        if ($collectCount > 0) {
+            $stronghold->setResources(Resources::addResources(
+                $stronghold->getResources(),
+                Resources::multiplyResources($building->getLevel()->getIncome(), $collectCount)
+            ));
+
+            $building->setUpdatedAt(new \DateTime());
+        }
     }
 }

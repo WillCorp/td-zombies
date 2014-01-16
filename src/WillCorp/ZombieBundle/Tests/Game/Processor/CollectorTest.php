@@ -65,7 +65,10 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
 
         //Test that resources has been correctly incremented
         $this->assertSame(
-            array(Resources::ENERGY => 305, Resources::METAL  => 400),
+            array(
+                Resources::ENERGY => 905, // 80  + (15 * 1) + (30 * 2) + (45 * 3) + (60 * 4) + (75 * 5)
+                Resources::METAL  => 1200 // 100 + (20 * 1) + (40 * 2) + (60 * 3) + (80 * 4) + (100 * 5)
+            ),
             $stronghold->getResources()
         );
     }
@@ -78,6 +81,10 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
     {
         $stronghold = $this->getStrongholdInstance();
 
+        $building = $stronghold->getBuildings()->first();
+        /* @var $building BuildingInstance */
+        $buildingUpdatedAt = $building->getUpdatedAt();
+
         $this->getProcessor()->collectBuildingResources($stronghold->getBuildings()->first());
 
         //Test that resources has been correctly incremented
@@ -85,6 +92,32 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
             array(Resources::ENERGY => 95, Resources::METAL  => 120),
             $stronghold->getResources()
         );
+        //Test that building "updatedAt" properties has been modified
+        $this->assertGreaterThan($buildingUpdatedAt->getTimestamp(), $building->getUpdatedAt()->getTimestamp());
+    }
+
+    /**
+     * Test the method "collectBuildingResources"
+     *      - Assert stronghold resource increment
+     */
+    public function testCollectBuildingResourcesNoChanges()
+    {
+        $stronghold = $this->getStrongholdInstance();
+
+        $building = $stronghold->getBuildings()->first();
+        /* @var $building BuildingInstance */
+        $building->setUpdatedAt(new \DateTime());
+        $buildingUpdatedAt = $building->getUpdatedAt();
+
+        $this->getProcessor()->collectBuildingResources($building);
+
+        //Test that resources have not been modified
+        $this->assertSame(
+            array(Resources::ENERGY => 80, Resources::METAL  => 100),
+            $stronghold->getResources()
+        );
+        //Test that building "updatedAt" properties have not been modified
+        $this->assertSame($buildingUpdatedAt->getTimestamp(), $building->getUpdatedAt()->getTimestamp());
     }
 
     /**
@@ -112,8 +145,12 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
             ));
 
         for ($i=1 ; $i<=5 ; $i++) {
+            $updatedAt = new \DateTime();
+            $updatedAt->modify(sprintf('-%d minutes', $i * 5));
+
             $building = new BuildingInstance();
             $building
+                ->setUpdatedAt($updatedAt)
                 ->setLevel($this->buildingLevels[$i]);
 
             $stronghold->addBuilding($building);
