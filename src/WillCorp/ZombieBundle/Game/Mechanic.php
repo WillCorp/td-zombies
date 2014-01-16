@@ -54,7 +54,7 @@ class Mechanic
      */
     public function upgradeStronghold(StrongholdInstance $stronghold, $increment = 1)
     {
-        $this->upgradeProcessor->processStronghold($stronghold, $increment);
+        $this->upgradeProcessor->upgradeStronghold($stronghold, $increment);
         $this->em->persist($stronghold);
         $this->em->flush();
     }
@@ -67,7 +67,7 @@ class Mechanic
      */
     public function upgradeBuilding(BuildingInstance $building, $increment = 1)
     {
-        $this->upgradeProcessor->processBuilding($building, $increment);
+        $this->upgradeProcessor->upgradeBuilding($building, $increment);
         $this->em->persist($building);
         $this->em->flush();
     }

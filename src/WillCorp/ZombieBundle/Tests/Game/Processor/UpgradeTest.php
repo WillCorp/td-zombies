@@ -57,6 +57,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
                 ->setLevel($i)
                 ->setCost(array(
                     Resources::ENERGY => $i * 15,
+                    Resources::ENERGY => $i * 15,
                     Resources::METAL  => $i * 20,
                 ));
             $this->buildingLevels[$i] = $buildingLevel;
@@ -74,7 +75,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the method "processStronghold" with an upgrade of a single level
+     * Test the method "upgradeStronghold" with an upgrade of a single level
      *      - Assert stronghold level increment
      *      - Assert stronghold resource decrement
      */
@@ -82,7 +83,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     {
         $stronghold = $this->getStrongholdInstance();
 
-        $this->getProcessor()->processStronghold($stronghold);
+        $this->getProcessor()->upgradeStronghold($stronghold);
 
         //Test that level has been incremented by 1
         $this->assertSame(
@@ -97,7 +98,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the method "processStronghold" with an upgrade of several levels
+     * Test the method "upgradeStronghold" with an upgrade of several levels
      *      - Assert stronghold level increment
      *      - Assert stronghold resource decrement
      */
@@ -105,7 +106,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     {
         $stronghold = $this->getStrongholdInstance();
 
-        $this->getProcessor()->processStronghold($stronghold, 2);
+        $this->getProcessor()->upgradeStronghold($stronghold, 2);
 
         //Test that level has been incremented by 2
         $this->assertSame(
@@ -120,7 +121,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the method "processBuilding" with an upgrade of a single level
+     * Test the method "upgradeBuilding" with an upgrade of a single level
      *      - Assert building level increment
      *      - Assert stronghold resource decrement
      */
@@ -130,7 +131,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         $building = $stronghold->getBuildings()->first();
         /* @var $building BuildingInstance */
 
-        $this->getProcessor()->processBuilding($building);
+        $this->getProcessor()->upgradeBuilding($building);
 
         //Test that level has been incremented by 1
         $this->assertSame(
@@ -145,7 +146,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the method "processBuilding" with an upgrade of several levels
+     * Test the method "upgradeBuilding" with an upgrade of several levels
      *      - Assert building level increment
      *      - Assert stronghold resource decrement
      */
@@ -155,7 +156,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         $building = $stronghold->getBuildings()->first();
         /* @var $building BuildingInstance */
 
-        $this->getProcessor()->processBuilding($building, 2);
+        $this->getProcessor()->upgradeBuilding($building, 2);
 
         //Test that level has been incremented by 2
         $this->assertSame(

@@ -49,7 +49,7 @@ class Upgrade
      *
      * @throws \Exception If there is not enough resources in the stronghold
      */
-    public function processStronghold(StrongholdInstance $stronghold, $increment = 1)
+    public function upgradeStronghold(StrongholdInstance $stronghold, $increment = 1)
     {
         $newStrongholdLevel = $this->getStrongholdLevel($stronghold->getLevel()->getLevel() + $increment);
 
@@ -74,7 +74,7 @@ class Upgrade
      *
      * @throws \Exception If there is not enough resources in the stronghold
      */
-    public function processBuilding(BuildingInstance $building, $increment = 1)
+    public function upgradeBuilding(BuildingInstance $building, $increment = 1)
     {
         $buildingLevel = $building->getLevel();
         $newBuildingLevel = $buildingLevel->getBuilding()->getLevel($buildingLevel->getLevel() + $increment);
