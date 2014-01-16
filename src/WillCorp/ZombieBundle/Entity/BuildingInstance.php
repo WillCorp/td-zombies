@@ -46,13 +46,6 @@ class BuildingInstance
     private $unitCount;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="resources", type="json_array")
-     */
-    private $resources;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -140,29 +133,6 @@ class BuildingInstance
     public function getUnitCount()
     {
         return $this->unitCount;
-    }
-
-    /**
-     * Set resources
-     *
-     * @param array $resources
-     * @return BuildingInstance
-     */
-    public function setResources($resources)
-    {
-        $this->resources = $resources;
-
-        return $this;
-    }
-
-    /**
-     * Get resources
-     *
-     * @return array
-     */
-    public function getResources()
-    {
-        return $this->resources;
     }
 
     /**
