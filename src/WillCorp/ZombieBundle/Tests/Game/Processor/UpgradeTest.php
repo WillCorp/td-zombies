@@ -18,7 +18,7 @@ use WillCorp\ZombieBundle\Entity\BuildingLevel;
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
 
 /**
- * Test the game processor class
+ * Test the game "upgrades" processor class
  *          {@link WillCorp\ZombieBundle\Game\Processor\Upgrade}
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
@@ -56,7 +56,6 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
                 ->setBuilding($building)
                 ->setLevel($i)
                 ->setCost(array(
-                    Resources::ENERGY => $i * 15,
                     Resources::ENERGY => $i * 15,
                     Resources::METAL  => $i * 20,
                 ));
