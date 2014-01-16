@@ -37,10 +37,6 @@ class StrongholdController extends Controller
         //set the current player as the good one
         $render_var["player"] = $player;
         
-        //get the base information of that player
-        //$stronghold = $repository = $this->getDoctrine()
-        //                                 ->getRepository('WillCorpZombieBundle:Stronghold');
-        
         return $this->render(
             'WillCorpZombieBundle:Specific:stronghold.html.twig',
             $render_var

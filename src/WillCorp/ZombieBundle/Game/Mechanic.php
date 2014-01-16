@@ -26,6 +26,12 @@ class Mechanic
      */
     protected $upgradeProcessor;
 
+    /**
+     * Entities moves process
+     * @var Processor\Move
+     */
+    protected $movesProcessor;
+
 
     /**
      * Class constructor
@@ -33,10 +39,11 @@ class Mechanic
      * @param EntityManager     $em               Doctrine entity manager
      * @param Processor\Upgrade $upgradeProcessor The upgrade processor object
      */
-    public function __construct(EntityManager $em, Processor\Upgrade $upgradeProcessor)
+    public function __construct(EntityManager $em, Processor\Upgrade $upgradeProcessor, Processor\Move $movesProcessor)
     {
         $this->em = $em;
         $this->upgradeProcessor = $upgradeProcessor;
+        $this->movesProcessor = $movesProcessor;
     }
 
     /**
@@ -61,6 +68,19 @@ class Mechanic
     public function upgradeBuilding(BuildingInstance $building, $increment = 1)
     {
         $this->upgradeProcessor->processBuilding($building, $increment);
+        $this->em->persist($building);
+        $this->em->flush();
+    }
+
+    /**
+     * Move a building instance
+     *
+     * @param BuildingInstance $building  The building to upgrade
+     * @param integer          $increment The upgrade gap
+     */
+    public function moveBuilding(BuildingInstance $building, $newRoundStart, $newColumnStart, StrongholdInstance $stronghold)
+    {
+        $this->movesProcessor->processBuilding($building, $newRoundStart, $newColumnStart, $stronghold);
         $this->em->persist($building);
         $this->em->flush();
     }
