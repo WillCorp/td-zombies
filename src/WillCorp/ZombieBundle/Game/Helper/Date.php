@@ -57,13 +57,7 @@ class Date
 
         $now = static::now();
 
-        $diff = ($now->getTimestamp() - $date->getTimestamp());
-
-        if ($diff < 0) {
-            throw new \Exception('You must provide a date in the past');
-        }
-
-        return intval(floor($diff / $format));
+        return intval(floor(abs($now->getTimestamp() - $date->getTimestamp()) / $format));
     }
 
     /**

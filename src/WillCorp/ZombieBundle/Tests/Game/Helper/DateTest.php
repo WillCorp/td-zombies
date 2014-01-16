@@ -34,20 +34,6 @@ class DateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the "getElapsedTime" method exception
-     * When a date in the future is given
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage You must provide a date in the past
-     */
-    public function testElapsedTimeFutureDateException()
-    {
-        $dateHelperClass = $this->getHelperClass();
-
-        $dateHelperClass::getElapsedTime(new \DateTime('2080-01-01'));
-    }
-
-    /**
      * Test the "getElapsedTime" method results
      *
      * @param \Datetime $date
@@ -111,6 +97,11 @@ class DateTest extends \PHPUnit_Framework_TestCase
                 new \DateTime('2014-01-07 12:00:00'),
                 Date::FORMAT_DAYS,
                 3
+            ),
+            array(
+                new \DateTime('2014-01-11 12:00:00'),
+                Date::FORMAT_DAYS,
+                1
             ),
         );
     }
