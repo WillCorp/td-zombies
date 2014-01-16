@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <!--
 /**
  * This file is part of the WillCorpZombieBundle package
@@ -8,7 +9,6 @@
  * file that was distributed with this source code.
  */
 -->
-<?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
