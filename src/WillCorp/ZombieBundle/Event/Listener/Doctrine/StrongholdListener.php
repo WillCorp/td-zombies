@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace WillCorp\ZombieBundle\Event\Listener;
+namespace WillCorp\ZombieBundle\Event\Listener\Doctrine;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
@@ -15,11 +15,11 @@ use WillCorp\ZombieBundle\Game\Processor\Collector\Chain as ChainCollector;
 use WillCorp\ZombieBundle\Game\Processor\Collector;
 
 /**
- * Class DoctrineStrongholdListener
+ * Class StrongholdListener
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
  */
-class DoctrineStrongholdListener
+class StrongholdListener
 {
     /**
      * The collect processor object
