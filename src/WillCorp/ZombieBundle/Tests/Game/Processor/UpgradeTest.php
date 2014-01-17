@@ -9,7 +9,7 @@
  */
 namespace WillCorp\ZombieBundle\Tests\Game\Processor;
 
-use WillCorp\ZombieBundle\Game\Helper\Resources;
+use WillCorp\ZombieBundle\Game\Helper\Resources as ResourcesHelper;
 use WillCorp\ZombieBundle\Game\Processor\Upgrade;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 use WillCorp\ZombieBundle\Entity\StrongholdLevel;
@@ -28,7 +28,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
     /**
      * @var StrongholdLevel[]
      */
-    protected $stronholdLevels;
+    protected $strongholdLevels;
 
     /**
      * @var BuildingLevel[]
@@ -46,18 +46,18 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
             $strongholdLevel
                 ->setLevel($i)
                 ->setCost(array(
-                    Resources::ENERGY => $i * 75,
-                    Resources::METAL  => $i * 100,
+                    ResourcesHelper::ENERGY => $i * 75,
+                    ResourcesHelper::METAL  => $i * 100,
                 ));
-            $this->stronholdLevels[$i] = $strongholdLevel;
+            $this->strongholdLevels[$i] = $strongholdLevel;
 
             $buildingLevel = new BuildingLevel();
             $buildingLevel
                 ->setBuilding($building)
                 ->setLevel($i)
                 ->setCost(array(
-                    Resources::ENERGY => $i * 15,
-                    Resources::METAL  => $i * 20,
+                    ResourcesHelper::ENERGY => $i * 15,
+                    ResourcesHelper::METAL  => $i * 20,
                 ));
             $this->buildingLevels[$i] = $buildingLevel;
             $building->addLevel($buildingLevel);
@@ -69,7 +69,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->stronholdLevels = null;
+        $this->strongholdLevels = null;
         $this->buildingLevels = null;
     }
 
@@ -91,7 +91,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         );
         //Test that resources has been correctly decremented
         $this->assertSame(
-            array(Resources::ENERGY => 350, Resources::METAL  => 600),
+            array(ResourcesHelper::ENERGY => 350, ResourcesHelper::METAL  => 600),
             $stronghold->getResources()
         );
     }
@@ -114,7 +114,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         );
         //Test that resources has been correctly decremented
         $this->assertSame(
-            array(Resources::ENERGY => 125, Resources::METAL  => 300),
+            array(ResourcesHelper::ENERGY => 125, ResourcesHelper::METAL  => 300),
             $stronghold->getResources()
         );
     }
@@ -139,7 +139,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         );
         //Test that resources has been correctly decremented
         $this->assertSame(
-            array(Resources::ENERGY => 470, Resources::METAL  => 760),
+            array(ResourcesHelper::ENERGY => 470, ResourcesHelper::METAL  => 760),
             $stronghold->getResources()
         );
     }
@@ -164,7 +164,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         );
         //Test that resources has been correctly decremented
         $this->assertSame(
-            array(Resources::ENERGY => 425, Resources::METAL  => 700),
+            array(ResourcesHelper::ENERGY => 425, ResourcesHelper::METAL  => 700),
             $stronghold->getResources()
         );
     }
@@ -182,7 +182,7 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         $repository
             ->expects($this->once())
             ->method('findAll')
-            ->will($this->returnValue($this->stronholdLevels));
+            ->will($this->returnValue($this->strongholdLevels));
 
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -205,10 +205,10 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         $stronghold = new StrongholdInstance();
         $stronghold
             ->setResources(array(
-                Resources::ENERGY => 500,
-                Resources::METAL  => 800,
+                ResourcesHelper::ENERGY => 500,
+                ResourcesHelper::METAL  => 800,
             ))
-            ->setLevel($this->stronholdLevels[1]);
+            ->setLevel($this->strongholdLevels[1]);
 
         $building = new BuildingInstance();
         $building

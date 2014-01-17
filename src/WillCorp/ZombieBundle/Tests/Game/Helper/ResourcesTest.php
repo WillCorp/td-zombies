@@ -9,7 +9,7 @@
  */
 namespace WillCorp\ZombieBundle\Tests\Game\Helper;
 
-use WillCorp\ZombieBundle\Game\Helper\Resources;
+use WillCorp\ZombieBundle\Game\Helper\Resources as ResourcesHelper;
 
 /**
  * Test the game helper class
@@ -30,7 +30,7 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasEnoughResources(array $disposal, array $cost, $enough)
     {
-        $result = Resources::hasEnoughResources($disposal, $cost);
+        $result = ResourcesHelper::hasEnoughResources($disposal, $cost);
 
         if ($enough) {
             $this->assertTrue($result);
@@ -50,7 +50,7 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubtractResources(array $supply, array $cost, array $rest)
     {
-        $result = Resources::subtractResources($supply, $cost);
+        $result = ResourcesHelper::subtractResources($supply, $cost);
 
         $this->assertSameSize($rest, $result);
         foreach ($rest as $resource => $value) {
@@ -73,7 +73,7 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException($exceptionName, $exceptionMessage);
 
-        Resources::subtractResources($supply, $cost);
+        ResourcesHelper::subtractResources($supply, $cost);
     }
 
     /**
@@ -87,7 +87,7 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddResources(array $supply, array $extra, array $expectedResult)
     {
-        $result = Resources::addResources($supply, $extra);
+        $result = ResourcesHelper::addResources($supply, $extra);
 
         $this->assertSameSize($expectedResult, $result);
         foreach ($expectedResult as $resource => $value) {
@@ -107,7 +107,7 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultiplyResources(array $resources, $modifier, array $expectedResult)
     {
-        $result = Resources::multiplyResources($resources, $modifier);
+        $result = ResourcesHelper::multiplyResources($resources, $modifier);
 
         $this->assertSameSize($expectedResult, $result);
         foreach ($expectedResult as $resource => $value) {
@@ -126,47 +126,47 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
         return array(
             //Single resources
             array(
-                array(Resources::ENERGY => 100),
-                array(Resources::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 50),
                 true
             ),
             array(
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 50),
                 true
             ),
             array(
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 100),
                 false
             ),
 
             //Multiple resources (same keys)
             array(
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
-                array(Resources::ENERGY => 50, Resources::METAL => 50),
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 50),
                 true
             ),
             array(
-                array(Resources::ENERGY => 50, Resources::METAL => 50),
-                array(Resources::ENERGY => 50, Resources::METAL => 50),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 50),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 50),
                 true
             ),
             array(
-                array(Resources::ENERGY => 50, Resources::METAL => 50),
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 50),
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
                 false
             ),
 
             //Not same keys resources
             array(
-                array(Resources::ENERGY => 50),
-                array(Resources::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::METAL => 100),
                 false
             ),
             array(
-                array(Resources::ENERGY => 50),
-                array(Resources::METAL => 100, Resources::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::METAL => 100, ResourcesHelper::ENERGY => 50),
                 false
             ),
         );
@@ -182,23 +182,23 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
         return array(
             //Single resources
             array(
-                array(Resources::ENERGY => 100),
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 50)
+                array(ResourcesHelper::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 50)
             ),
 
             //Multiple resources (same keys)
             array(
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
-                array(Resources::ENERGY => 50, Resources::METAL => 25),
-                array(Resources::ENERGY => 50, Resources::METAL => 75)
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 25),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 75)
             ),
 
             //Multiple resources (not same keys)
             array(
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 50, Resources::METAL => 100)
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 100)
             ),
         );
     }
@@ -235,28 +235,28 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
         return array(
             //Single resources
             array(
-                array(Resources::ENERGY => 100),
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 150)
+                array(ResourcesHelper::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 150)
             ),
 
             //Multiple resources (same keys)
             array(
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
-                array(Resources::ENERGY => 50, Resources::METAL => 25),
-                array(Resources::ENERGY => 150, Resources::METAL => 125)
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50, ResourcesHelper::METAL => 25),
+                array(ResourcesHelper::ENERGY => 150, ResourcesHelper::METAL => 125)
             ),
 
             //Multiple resources (not same keys)
             array(
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 150, Resources::METAL => 100)
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 150, ResourcesHelper::METAL => 100)
             ),
             array(
-                array(Resources::ENERGY => 50),
-                array(Resources::ENERGY => 100, Resources::METAL => 100),
-                array(Resources::ENERGY => 150, Resources::METAL => 100)
+                array(ResourcesHelper::ENERGY => 50),
+                array(ResourcesHelper::ENERGY => 100, ResourcesHelper::METAL => 100),
+                array(ResourcesHelper::ENERGY => 150, ResourcesHelper::METAL => 100)
             ),
         );
     }
@@ -270,24 +270,24 @@ class ResourcesTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(Resources::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 100),
                 0,
-                array(Resources::ENERGY => 0)
+                array(ResourcesHelper::ENERGY => 0)
             ),
             array(
-                array(Resources::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 100),
                 2,
-                array(Resources::ENERGY => 200)
+                array(ResourcesHelper::ENERGY => 200)
             ),
             array(
-                array(Resources::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 100),
                 -3,
-                array(Resources::ENERGY => 300)
+                array(ResourcesHelper::ENERGY => 300)
             ),
             array(
-                array(Resources::ENERGY => 100),
+                array(ResourcesHelper::ENERGY => 100),
                 6.789,
-                array(Resources::ENERGY => 600)
+                array(ResourcesHelper::ENERGY => 600)
             ),
        );
     }

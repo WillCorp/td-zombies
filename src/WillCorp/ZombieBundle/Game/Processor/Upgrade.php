@@ -14,7 +14,7 @@ use WillCorp\ZombieBundle\Entity\BuildingInstance;
 use WillCorp\ZombieBundle\Entity\BuildingLevel;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 use WillCorp\ZombieBundle\Entity\StrongholdLevel;
-use WillCorp\ZombieBundle\Game\Helper\Resources;
+use WillCorp\ZombieBundle\Game\Helper\Resources as ResourcesHelper;
 
 /**
  * Class Upgrade
@@ -55,12 +55,12 @@ class Upgrade
 
         if ($newStrongholdLevel) {
             $cost = $this->getTotalCost($stronghold->getLevel()->getLevel(), $this->strongholdLevels, $increment);
-            if (!Resources::hasEnoughResources($stronghold->getResources(), $cost)) {
+            if (!ResourcesHelper::hasEnoughResources($stronghold->getResources(), $cost)) {
                 throw new \Exception('You have not enough resources !');
             }
             $stronghold
                 ->setLevel($newStrongholdLevel)
-                ->setResources(Resources::subtractResources($stronghold->getResources(), $cost));
+                ->setResources(ResourcesHelper::subtractResources($stronghold->getResources(), $cost));
         } else {
             throw new \Exception('The required stronghold level is not available !');
         }
@@ -82,13 +82,13 @@ class Upgrade
         if ($newBuildingLevel) {
             $strongholdResources = $building->getStronghold()->getResources();
             $cost = $this->getTotalCost($building->getLevel()->getLevel(), $buildingLevel->getBuilding()->getLevels(), $increment);
-            if (!Resources::hasEnoughResources($strongholdResources, $cost)) {
+            if (!ResourcesHelper::hasEnoughResources($strongholdResources, $cost)) {
                 throw new \Exception('You have not enough resources !');
             }
             $building
                 ->setLevel($newBuildingLevel)
                 ->getStronghold()
-                    ->setResources(Resources::subtractResources($strongholdResources, $cost));
+                    ->setResources(ResourcesHelper::subtractResources($strongholdResources, $cost));
         } else {
             throw new \Exception('The required building level is not available !');
         }
