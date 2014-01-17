@@ -24,6 +24,7 @@
         <service id="will_corp_zombie.game.mechanic" class="%will_corp_zombie.game.mechanic.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="will_corp_zombie.game.processor.upgrade" />
+            <argument type="service" id="will_corp_zombie.game.processor.collect" />
         </service>
         <service id="will_corp_zombie.game.processor.upgrade" class="%will_corp_zombie.game.processor.upgrade.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />

@@ -52,7 +52,7 @@ class Mechanic
         $this->em = $em;
 
         $this->upgradeProcessor = $upgradeProcessor;
-        $this->upgradeProcessor = $collectProcessor;
+        $this->collectProcessor = $collectProcessor;
     }
 
     /**
@@ -77,6 +77,30 @@ class Mechanic
     public function upgradeBuilding(BuildingInstance $building, $increment = 1)
     {
         $this->upgradeProcessor->upgradeBuilding($building, $increment);
+        $this->em->persist($building);
+        $this->em->flush();
+    }
+
+    /**
+     * Collect resources of a stronghold instance
+     *
+     * @param StrongholdInstance $stronghold The stronghold to collect resources from
+     */
+    public function collectStrongholdResources(StrongholdInstance $stronghold)
+    {
+        $this->collectProcessor->collectStrongholdResources($stronghold);
+        $this->em->persist($stronghold);
+        $this->em->flush();
+    }
+
+    /**
+     * Collect resources of a building instance
+     *
+     * @param BuildingInstance $building  The building to collect resources from
+     */
+    public function collectBuildingResources(BuildingInstance $building)
+    {
+        $this->collectProcessor->collectBuildingResources($building);
         $this->em->persist($building);
         $this->em->flush();
     }
