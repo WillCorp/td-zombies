@@ -18,41 +18,36 @@ use WillCorp\ZombieBundle\Entity\BuildingInstance;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 
 /**
- * Class UpgradeController
+ * Class CollectorController
  *
  * @Route("/game")
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
  */
-class UpgradeController extends Controller
+class CollectorController extends Controller
 {
     /**
-     * Process a stronghold upgrade
+     * Process a stronghold collect
      * This action is only available through XML HTTP requests (i.e. AJAX)
      *
      * @param Request            $request    The HTTP request object
-     * @param StrongholdInstance $stronghold The stronghold object to upgrade
-     * @param integer            $increment  The upgrade gap
+     * @param StrongholdInstance $stronghold The stronghold object to collect
      *
      * @return Response
      *
-     * @Route("/stronghold/{id}/upgrade",
-     *      name="game_upgrade_stronghold",
+     * @Route("/stronghold/{id}/collect",
+     *      name="game_collect_stronghold",
      *      requirements={"id": "\d+"}
      * )
-     * @Route("/stronghold/{id}/upgrade/{increment}",
-     *      name="game_upgrade_stronghold_increment",
-     *      requirements={"id": "\d+", "increment": "\d+"}
-     * )
      */
-    public function strongholdAction(Request $request, StrongholdInstance $stronghold, $increment = 1)
+    public function strongholdAction(Request $request, StrongholdInstance $stronghold)
     {
         $this->throwNotFoundUnless($this->isXmlHttpRequest($request));
         $this->throwNotFoundUnless($this->isPlayersStronghold($stronghold));
 
         $error = null;
         try {
-            $this->getGameMechanic()->upgradeStronghold($stronghold, $increment);
+            $this->getGameMechanic()->collectStronghold($stronghold);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
@@ -61,32 +56,27 @@ class UpgradeController extends Controller
     }
 
     /**
-     * Process a building upgrade
+     * Process a building collect
      * This action is only available through XML HTTP requests (i.e. AJAX)
      *
      * @param Request          $request   The HTTP request object
-     * @param BuildingInstance $building  The building object to upgrade
-     * @param integer          $increment The upgrade gap
+     * @param BuildingInstance $building  The building object to collect
      *
      * @return Response
      *
-     * @Route("/building/{id}/upgrade",
-     *      name="game_upgrade_building",
+     * @Route("/building/{id}/collect",
+     *      name="game_collect_building",
      *      requirements={"id": "\d+"}
      * )
-     * @Route("/building/{id}/upgrade/{increment}",
-     *      name="game_upgrade_building_increment",
-     *      requirements={"id": "\d+", "increment": "\d+"}
-     * )
      */
-    public function buildingAction(Request $request, BuildingInstance $building, $increment = 1)
+    public function buildingAction(Request $request, BuildingInstance $building)
     {
         $this->throwNotFoundUnless($this->isXmlHttpRequest($request));
         $this->throwNotFoundUnless($this->isPlayersStronghold($building->getStronghold()));
 
         $error = null;
         try {
-            $this->getGameMechanic()->upgradeBuilding($building, $increment);
+            $this->getGameMechanic()->collectBuilding($building);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }

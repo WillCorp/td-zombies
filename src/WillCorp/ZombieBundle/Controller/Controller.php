@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 use WillCorp\ZombieBundle\Game\Mechanic;
 
 /**
@@ -122,5 +123,17 @@ class Controller extends BaseController
     {
         return $request->isXmlHttpRequest() ||
             ($allowDebug && $this->container->getParameter('kernel.debug') && $request->request->has('debug'));
+    }
+
+    /**
+     * Check whether the given stronghold belong to the authenticated user
+     *
+     * @param StrongholdInstance $stronghold The stronghold to test
+     *
+     * @return boolean
+     */
+    public function isPlayersStronghold(StrongholdInstance $stronghold)
+    {
+        return $this->getUser() && $this->getUser()->getId() == $stronghold->getPlayer()->getId();
     }
 }
