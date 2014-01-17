@@ -10,6 +10,7 @@
 namespace WillCorp\ZombieBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -106,5 +107,20 @@ class Controller extends BaseController
         if (!$condition) {
             throw $this->createNotFoundException($message);
         }
+    }
+
+    /**
+     * Indicates whether the given request is a XMLHttpRequest (i.e. AJAX)
+     * $allowDebug allow simulate a XMLHttpRequest if the request has a "debug" parameter and "kernel.debug" is true
+     *
+     * @param Request $request    The request object to test
+     * @param boolean $allowDebug Whether to allow the debug bypass
+     *
+     * @return boolean
+     */
+    public function isXmlHttpRequest(Request $request, $allowDebug = true)
+    {
+        return $request->isXmlHttpRequest() ||
+            ($allowDebug && $this->container->getParameter('kernel.debug') && $request->request->has('debug'));
     }
 }

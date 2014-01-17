@@ -47,7 +47,7 @@ class UpgradeController extends Controller
      */
     public function strongholdAction(Request $request, StrongholdInstance $stronghold, $increment = 1)
     {
-        $this->throwNotFoundUnless($request->isXmlHttpRequest());
+        $this->throwNotFoundUnless($this->isXmlHttpRequest($request));
         $this->throwNotFoundUnless($this->getUser() && $this->getUser()->getId() == $stronghold->getPlayer()->getId());
 
         $error = null;
@@ -81,7 +81,7 @@ class UpgradeController extends Controller
      */
     public function buildingAction(Request $request, BuildingInstance $building, $increment = 1)
     {
-        $this->throwNotFoundUnless($request->isXmlHttpRequest());
+        $this->throwNotFoundUnless($this->isXmlHttpRequest($request));
         $this->throwNotFoundUnless($this->getUser() && $this->getUser()->getId() == $building->getStronghold()->getPlayer()->getId());
 
         $error = null;
