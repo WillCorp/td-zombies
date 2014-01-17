@@ -33,17 +33,26 @@ class Mechanic
      */
     protected $upgradeProcessor;
 
+    /**
+     * Entities collect process
+     * @var Processor\Collect
+     */
+    protected $collectProcessor;
+
 
     /**
      * Class constructor
      *
      * @param EntityManager     $em               Doctrine entity manager
      * @param Processor\Upgrade $upgradeProcessor The upgrade processor object
+     * @param Processor\Collect $collectProcessor The collect processor object
      */
-    public function __construct(EntityManager $em, Processor\Upgrade $upgradeProcessor)
+    public function __construct(EntityManager $em, Processor\Upgrade $upgradeProcessor, Processor\Collect $collectProcessor)
     {
         $this->em = $em;
+
         $this->upgradeProcessor = $upgradeProcessor;
+        $this->upgradeProcessor = $collectProcessor;
     }
 
     /**

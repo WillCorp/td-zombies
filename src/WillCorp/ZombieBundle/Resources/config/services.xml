@@ -17,6 +17,7 @@
     <parameters>
         <parameter key="will_corp_zombie.game.mechanic.class">WillCorp\ZombieBundle\Game\Mechanic</parameter>
         <parameter key="will_corp_zombie.game.processor.upgrade.class">WillCorp\ZombieBundle\Game\Processor\Upgrade</parameter>
+        <parameter key="will_corp_zombie.game.processor.collect.class">WillCorp\ZombieBundle\Game\Processor\Collect</parameter>
     </parameters>
 
     <services>
@@ -27,5 +28,6 @@
         <service id="will_corp_zombie.game.processor.upgrade" class="%will_corp_zombie.game.processor.upgrade.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
+        <service id="will_corp_zombie.game.processor.collect" class="%will_corp_zombie.game.processor.collect.class%"/>
     </services>
 </container>
