@@ -64,9 +64,7 @@ class LoadBuildingInstanceData extends AbstractFixture implements OrderedFixture
                     ->setStronghold($stronghold)
                     ->setLevel($this->getReference('building-' . $buildingName . '-level-1'))
                     ->setRoundStart($buildingData['round'])
-                    ->setUnitCount($buildingData['units'])
-                    ->setCreatedAt(new \DateTime())
-                    ->setUpdatedAt(new \DateTime());
+                    ->setUnitCount($buildingData['units']);
 
                 $manager->persist($building);
 

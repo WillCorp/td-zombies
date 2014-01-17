@@ -72,3 +72,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: WillCorp\ZombieBundle\Entity\Player
+
+stof_doctrine_extensions:
+    default_locale: fr
+    orm:
+        default:
+            timestampable: true

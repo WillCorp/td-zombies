@@ -48,9 +48,7 @@ class LoadStrongholdInstanceData extends AbstractFixture implements OrderedFixtu
                 ))
                 ->setColumns(array(
                     1 => 100
-                ))
-                ->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(new \DateTime());
+                ));
 
             $manager->persist($stronghold);
 
