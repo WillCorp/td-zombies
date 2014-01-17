@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * This file is part of the WillCorpZombieBundle package
+ *
+ * (c) Yann Eugoné <yann.eugone@gmail.com> ; William Sauvan <william.sauvan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="will_corp_zombie.listener.doctrine.stronghold.class">WillCorp\ZombieBundle\Event\Listener\DoctrineStrongholdListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="will_corp_zombie.listener.doctrine.stronghold" class="%will_corp_zombie.listener.doctrine.stronghold.class%">
+            <argument type="service" id="will_corp_zombie.game.processor.collect"/>
+            <tag name="doctrine.event_listener" event="prePersist"/>
+            <tag name="doctrine.event_listener" event="preUpdate"/>
+        </service>
+    </services>
+</container>

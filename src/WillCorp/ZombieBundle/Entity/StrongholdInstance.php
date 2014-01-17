@@ -99,7 +99,7 @@ class StrongholdInstance
     /**
      * @var BuildingInstance[]
      *
-     * @ORM\OneToMany(targetEntity="WillCorp\ZombieBundle\Entity\BuildingInstance", mappedBy="stronghold")
+     * @ORM\OneToMany(targetEntity="WillCorp\ZombieBundle\Entity\BuildingInstance", mappedBy="stronghold", cascade={"persist"})
      * @Serialize\Expose
      */
     private $buildings;
