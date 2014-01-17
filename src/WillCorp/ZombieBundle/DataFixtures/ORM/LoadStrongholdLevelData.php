@@ -13,6 +13,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use WillCorp\ZombieBundle\Entity\StrongholdLevel;
+use WillCorp\ZombieBundle\Game\Helper\Resources as ResourcesHelper;
 
 /**
  * @todo: provide class description
@@ -31,8 +32,8 @@ class LoadStrongholdLevelData extends AbstractFixture implements OrderedFixtureI
             $level
                 ->setLevel($i)
                 ->setCost(array(
-                    'energy' => $i * 100,
-                    'metal'  => $i * 100,
+                    ResourcesHelper::ENERGY => $i * 100,
+                    ResourcesHelper::METAL  => $i * 100,
                 ))
                 ->setBuildingMaxLevel($i)
                 ->setColumnsCount($i + 2)

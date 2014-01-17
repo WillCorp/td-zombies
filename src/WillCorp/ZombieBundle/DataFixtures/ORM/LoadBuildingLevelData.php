@@ -13,6 +13,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use WillCorp\ZombieBundle\Entity\BuildingLevel;
+use WillCorp\ZombieBundle\Game\Helper\Resources as ResourcesHelper;
 
 /**
  * @todo: provide class description
@@ -30,12 +31,12 @@ class LoadBuildingLevelData extends AbstractFixture implements OrderedFixtureInt
             'income' => array(
                 'unit' => 'small',
                 'cost' => array(
-                    'energy' => 10,
-                    'metal'  => 10,
+                    ResourcesHelper::ENERGY => 10,
+                    ResourcesHelper::METAL  => 10,
                 ),
                 'income' => array(
-                    'energy' => 10,
-                    'metal'  => 10,
+                    ResourcesHelper::ENERGY => 10,
+                    ResourcesHelper::METAL  => 10,
                 ),
                 'defense'    => 1,
                 'round'      => 1,
@@ -46,12 +47,12 @@ class LoadBuildingLevelData extends AbstractFixture implements OrderedFixtureInt
             'defense' => array(
                 'unit' => 'normal',
                 'cost' => array(
-                    'energy' => 10,
-                    'metal'  => 10,
+                    ResourcesHelper::ENERGY => 10,
+                    ResourcesHelper::METAL  => 10,
                 ),
                 'income' => array(
-                    'energy' => 10,
-                    'metal'  => 10,
+                    ResourcesHelper::ENERGY => 10,
+                    ResourcesHelper::METAL  => 10,
                 ),
                 'defense'    => 1,
                 'round'      => 1,
@@ -62,12 +63,12 @@ class LoadBuildingLevelData extends AbstractFixture implements OrderedFixtureInt
             'attack' => array(
                 'unit' => 'big',
                 'cost' => array(
-                    'energy' => 1,
-                    'metal'  => 1,
+                    ResourcesHelper::ENERGY => 1,
+                    ResourcesHelper::METAL  => 1,
                 ),
                 'income' => array(
-                    'energy' => 1,
-                    'metal'  => 1,
+                    ResourcesHelper::ENERGY => 1,
+                    ResourcesHelper::METAL  => 1,
                 ),
                 'defense'    => 1,
                 'round'      => 1,
@@ -84,12 +85,12 @@ class LoadBuildingLevelData extends AbstractFixture implements OrderedFixtureInt
                     ->setUnit($this->getReference('unit-' . $buildingData['unit'] . '-level-' . $i))
                     ->setLevel($i)
                     ->setCost(array(
-                        'energy' => $i * $buildingData['cost']['energy'],
-                        'metal'  => $i * $buildingData['cost']['metal'],
+                        ResourcesHelper::ENERGY => $i * $buildingData['cost'][ResourcesHelper::ENERGY],
+                        ResourcesHelper::METAL  => $i * $buildingData['cost'][ResourcesHelper::METAL],
                     ))
                     ->setIncome(array(
-                        'energy' => $i * $buildingData['income']['energy'],
-                        'metal'  => $i * $buildingData['income']['metal'],
+                        ResourcesHelper::ENERGY => $i * $buildingData['income'][ResourcesHelper::ENERGY],
+                        ResourcesHelper::METAL  => $i * $buildingData['income'][ResourcesHelper::METAL],
                     ))
                     ->setDefense($i * $buildingData['defense'])
                     ->setRoundCount($i * $buildingData['round'])

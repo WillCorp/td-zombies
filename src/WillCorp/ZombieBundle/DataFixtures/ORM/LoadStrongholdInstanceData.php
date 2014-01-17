@@ -13,6 +13,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
+use WillCorp\ZombieBundle\Game\Helper\Resources as ResourcesHelper;
 
 /**
  * @todo: provide class description
@@ -43,8 +44,8 @@ class LoadStrongholdInstanceData extends AbstractFixture implements OrderedFixtu
                 ->setSquare($this->getReference(sprintf('square-%d-%d', $strongholdData['coord_x'], $strongholdData['coord_y'])))
                 ->setLevel($this->getReference('stronghold-level-1'))
                 ->setResources(array(
-                    'energy' => 900,
-                    'metal'  => 900,
+                    ResourcesHelper::ENERGY => 900,
+                    ResourcesHelper::METAL  => 900,
                 ))
                 ->setColumns(array(
                     1 => 100
