@@ -10,6 +10,9 @@
 namespace WillCorp\ZombieBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
+use WillCorp\ZombieBundle\Entity\Square;
 
 /**
  * SquareRepository
@@ -19,4 +22,43 @@ use Doctrine\ORM\EntityRepository;
  */
 class SquareRepository extends EntityRepository
 {
+    /**
+     * Return all available squares (no stronghold assigned)
+     *
+     * @return Square[]
+     */
+    public function findAvailable()
+    {
+        return $this->getAvailableQuery()->getQuery()->execute();
+    }
+
+    /**
+     * Return an available square (no stronghold assigned)
+     *
+     * @return Square|false
+     */
+    public function findOneAvailable()
+    {
+        try {
+            return $this->getAvailableQuery()
+                ->setMaxResults(1)
+                ->setFirstResult(1)
+                ->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Get the query builder use by the "findAvailable" & "findOneAvailable" methods
+     *
+     * @return QueryBuilder
+     */
+    protected function getAvailableQuery()
+    {
+        $qb = $this->createQueryBuilder('sq');
+
+        return $qb->leftJoin('sq.stronghold', 'st')
+            ->andWhere($qb->expr()->isNull('st.id'));
+    }
 }
