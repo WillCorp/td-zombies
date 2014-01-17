@@ -48,6 +48,8 @@ class Units extends Collector
                 $building->setUnitCount(
                     $building->getUnitCount() + min($allowedCollectCount, $collectCount)
                 );
+
+                $building->setUpdatedAt(new \DateTime());
             }
         }
     }
