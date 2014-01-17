@@ -10,7 +10,18 @@
 namespace WillCorp\ZombieBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use WillCorp\ZombieBundle\DependencyInjection\CompilerPass\ProcessorCompilerPass;
 
 class WillCorpZombieBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new ProcessorCompilerPass());
+    }
 }

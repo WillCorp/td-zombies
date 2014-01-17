@@ -35,7 +35,7 @@ class Mechanic
 
     /**
      * Entities collect process
-     * @var Processor\Collect
+     * @var Processor\Collector
      */
     protected $collectProcessor;
 
@@ -43,11 +43,11 @@ class Mechanic
     /**
      * Class constructor
      *
-     * @param EntityManager     $em               Doctrine entity manager
-     * @param Processor\Upgrade $upgradeProcessor The upgrade processor object
-     * @param Processor\Collect $collectProcessor The collect processor object
+     * @param EntityManager       $em               Doctrine entity manager
+     * @param Processor\Upgrade   $upgradeProcessor The upgrade processor object
+     * @param Processor\Collector $collectProcessor The collect processor object
      */
-    public function __construct(EntityManager $em, Processor\Upgrade $upgradeProcessor, Processor\Collect $collectProcessor)
+    public function __construct(EntityManager $em, Processor\Upgrade $upgradeProcessor, Processor\Collector $collectProcessor)
     {
         $this->em = $em;
 
@@ -82,25 +82,25 @@ class Mechanic
     }
 
     /**
-     * Collect resources of a stronghold instance
+     * Process collect of a stronghold instance
      *
-     * @param StrongholdInstance $stronghold The stronghold to collect resources from
+     * @param StrongholdInstance $stronghold The stronghold to collect from
      */
-    public function collectStrongholdResources(StrongholdInstance $stronghold)
+    public function collectStronghold(StrongholdInstance $stronghold)
     {
-        $this->collectProcessor->collectStrongholdResources($stronghold);
+        $this->collectProcessor->collectStronghold($stronghold);
         $this->em->persist($stronghold);
         $this->em->flush();
     }
 
     /**
-     * Collect resources of a building instance
+     * Process collect of a building instance
      *
-     * @param BuildingInstance $building  The building to collect resources from
+     * @param BuildingInstance $building  The building to collect from
      */
-    public function collectBuildingResources(BuildingInstance $building)
+    public function collectBuilding(BuildingInstance $building)
     {
-        $this->collectProcessor->collectBuildingResources($building);
+        $this->collectProcessor->collectBuilding($building);
         $this->em->persist($building);
         $this->em->flush();
     }

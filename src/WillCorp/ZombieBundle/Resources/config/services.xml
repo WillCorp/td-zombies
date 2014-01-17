@@ -17,18 +17,31 @@
     <parameters>
         <parameter key="will_corp_zombie.game.mechanic.class">WillCorp\ZombieBundle\Game\Mechanic</parameter>
         <parameter key="will_corp_zombie.game.processor.upgrade.class">WillCorp\ZombieBundle\Game\Processor\Upgrade</parameter>
-        <parameter key="will_corp_zombie.game.processor.collect.class">WillCorp\ZombieBundle\Game\Processor\Collect</parameter>
+
+        <parameter key="will_corp_zombie.game.processor.chain_collector.class">WillCorp\ZombieBundle\Game\Processor\Collector\Chain</parameter>
+        <parameter key="will_corp_zombie.game.processor.resources_collector.class">WillCorp\ZombieBundle\Game\Processor\Collector\Resources</parameter>
+        <parameter key="will_corp_zombie.game.processor.units_collector.class">WillCorp\ZombieBundle\Game\Processor\Collector\Units</parameter>
     </parameters>
 
     <services>
         <service id="will_corp_zombie.game.mechanic" class="%will_corp_zombie.game.mechanic.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="will_corp_zombie.game.processor.upgrade" />
-            <argument type="service" id="will_corp_zombie.game.processor.collect" />
+            <argument type="service" id="will_corp_zombie.game.processor.chain_collector" />
         </service>
         <service id="will_corp_zombie.game.processor.upgrade" class="%will_corp_zombie.game.processor.upgrade.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
-        <service id="will_corp_zombie.game.processor.collect" class="%will_corp_zombie.game.processor.collect.class%"/>
+
+        <service id="will_corp_zombie.game.processor.chain_collector"
+                 class="%will_corp_zombie.game.processor.chain_collector.class%"/>
+        <service id="will_corp_zombie.game.processor.resources_collector"
+                 class="%will_corp_zombie.game.processor.resources_collector.class%">
+            <tag name="will_corp_zombie.game.collector" alias="resources"/>
+        </service>
+        <service id="will_corp_zombie.game.processor.units_collector"
+                 class="%will_corp_zombie.game.processor.units_collector.class%">
+            <tag name="will_corp_zombie.game.collector" alias="units"/>
+        </service>
     </services>
 </container>

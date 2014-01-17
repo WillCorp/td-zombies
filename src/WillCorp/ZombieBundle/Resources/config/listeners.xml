@@ -20,7 +20,7 @@
 
     <services>
         <service id="will_corp_zombie.listener.doctrine.stronghold" class="%will_corp_zombie.listener.doctrine.stronghold.class%">
-            <argument type="service" id="will_corp_zombie.game.processor.collect"/>
+            <argument type="service" id="will_corp_zombie.game.processor.chain_collector"/>
             <tag name="doctrine.event_listener" event="prePersist"/>
             <tag name="doctrine.event_listener" event="preUpdate"/>
         </service>

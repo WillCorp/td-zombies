@@ -11,7 +11,7 @@ namespace WillCorp\ZombieBundle\Event\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
-use WillCorp\ZombieBundle\Game\Processor\Collect as CollectProcessor;
+use WillCorp\ZombieBundle\Game\Processor\Collector\Chain as ChainCollector;
 use WillCorp\ZombieBundle\Game\Processor\Collector;
 
 /**
@@ -23,23 +23,23 @@ class DoctrineStrongholdListener
 {
     /**
      * The collect processor object
-     * @var CollectProcessor
+     * @var ChainCollector
      */
     protected $collector;
 
     /**
      * Class constructor
      *
-     * @param CollectProcessor $collector The collect processor object
+     * @param ChainCollector $collector The collect processor object
      */
-    public function __construct(CollectProcessor $collector)
+    public function __construct(ChainCollector $collector)
     {
         $this->collector = $collector;
     }
 
     /**
      * Handle Doctrine "prePersist" event
-     *      - Collect stronghold resources before save
+     *      - Process the collect features
      *
      * @param LifecycleEventArgs $event The event object
      */
@@ -48,13 +48,13 @@ class DoctrineStrongholdListener
         $stronghold = $event->getEntity();
 
         if ($stronghold instanceof StrongholdInstance) {
-            $this->collector->collectStrongholdResources($stronghold);
+            $this->collector->collectStronghold($stronghold);
         }
     }
 
     /**
      * Handle Doctrine "preUpdate" event fo the StrongholdInstance object
-     *      - Collect stronghold resources before save
+     *      - Process the collect features
      *
      * @param LifecycleEventArgs $event The event object
      */
@@ -63,7 +63,7 @@ class DoctrineStrongholdListener
         $stronghold = $event->getEntity();
 
         if ($stronghold instanceof StrongholdInstance) {
-            $this->collector->collectStrongholdResources($stronghold);
+            $this->collector->collectStronghold($stronghold);
         }
     }
 }
