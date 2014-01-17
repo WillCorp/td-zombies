@@ -43,6 +43,7 @@ class Upgrade
 
     /**
      * Process a stronghold upgrade
+     * todo columns reset
      *
      * @param StrongholdInstance $stronghold The stronghold to upgrade
      * @param integer            $increment The upgrade gap

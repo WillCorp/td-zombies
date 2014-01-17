@@ -46,9 +46,6 @@ class LoadStrongholdInstanceData extends AbstractFixture implements OrderedFixtu
                 ->setResources(array(
                     ResourcesHelper::ENERGY => 900,
                     ResourcesHelper::METAL  => 900,
-                ))
-                ->setColumns(array(
-                    1 => 100
                 ));
 
             $manager->persist($stronghold);

@@ -137,6 +137,34 @@ class StrongholdInstance
     }
 
     /**
+     * Reset columns using assigned level
+     *
+     * @return StrongholdInstance
+     * @throws \LogicException If there is no level assigned
+     * @throws \RangeException If the assigned level columns count is invalid
+     */
+    public function resetColumns()
+    {
+        if (!$this->level instanceof StrongholdLevel) {
+            throw new \LogicException('Unable to reset columns, no level assigned to the stronghold');
+        }
+
+        $columnsCount = max(1, $this->level->getColumnsCount());
+
+        if (100 % $columnsCount > 0) {
+            throw new \RangeException(sprintf(
+                'Unable to reset columns, the column count of the level %d is invalid (%d)',
+                $this->level->getLevel(),
+                $columnsCount
+            ));
+        }
+
+        $this->columns = array_fill(1, $columnsCount, 100 / $columnsCount);
+
+        return $this;
+    }
+
+    /**
      * Get columns
      *
      * @return array 
@@ -270,6 +298,10 @@ class StrongholdInstance
     public function setLevel(StrongholdLevel $level = null)
     {
         $this->level = $level;
+
+        if (count($this->columns) !== $level->getColumnsCount()) {
+            $this->resetColumns();
+        }
 
         return $this;
     }
