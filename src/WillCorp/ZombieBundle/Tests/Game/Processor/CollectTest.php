@@ -10,7 +10,7 @@
 namespace WillCorp\ZombieBundle\Tests\Game\Processor;
 
 use WillCorp\ZombieBundle\Game\Helper\Resources;
-use WillCorp\ZombieBundle\Game\Processor\Collector;
+use WillCorp\ZombieBundle\Game\Processor\Collect;
 use WillCorp\ZombieBundle\Entity\StrongholdInstance;
 use WillCorp\ZombieBundle\Entity\BuildingLevel;
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
@@ -21,7 +21,7 @@ use WillCorp\ZombieBundle\Entity\BuildingInstance;
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
  */
-class CollectorTest extends \PHPUnit_Framework_TestCase
+class CollectTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var BuildingLevel[]
@@ -123,11 +123,11 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Return the collector processor object to test
      *
-     * @return Collector
+     * @return Collect
      */
     protected function getProcessor()
     {
-        return new Collector();
+        return new Collect();
     }
 
     /**

@@ -15,13 +15,13 @@ use WillCorp\ZombieBundle\Game\Helper\Date;
 use WillCorp\ZombieBundle\Game\Helper\Resources;
 
 /**
- * Class Collector
+ * Class Collect
  *
  * @author Yann Eugoné <yann.eugone@gmail.com>
  */
-class Collector
+class Collect
 {
-    const COLLECT_INTERVAL = '300';
+    const COLLECT_INTERVAL = 300;
 
     /**
      * Collect the resources of a stronghold's buildings
