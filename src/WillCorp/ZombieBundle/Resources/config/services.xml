@@ -15,11 +15,15 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="will_corp_zombie.game.processor.upgrade" />
             <argument type="service" id="will_corp_zombie.game.processor.move" />
+            <argument type="service" id="will_corp_zombie.game.processor.fight" />
         </service>
         <service id="will_corp_zombie.game.processor.upgrade" class="%will_corp_zombie.game.processor.upgrade.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
         <service id="will_corp_zombie.game.processor.move" class="%will_corp_zombie.game.processor.move.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        <service id="will_corp_zombie.game.processor.fight" class="%will_corp_zombie.game.processor.fight.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
