@@ -4,6 +4,7 @@ namespace WillCorp\ZombieBundle\Game\Processor;
 
 use Doctrine\ORM\EntityManager;
 use WillCorp\ZombieBundle\Game\Helper\Fighter;
+use WillCorp\ZombieBundle\Game\Helper\Resources;
 use WillCorp\ZombieBundle\Entity\Player;
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
 
@@ -22,16 +23,6 @@ class Fight
      * @var battlefield[round][column]
      */
     private $battlefield = array();
-  
-    /**
-     * Class constructor
-     * Set the battlefield up with correct defenses positions
-     *
-     * @param EntityManager $em Doctrine entity manager
-     */
-    public function __construct(EntityManager $em) 
-    {
-    }
 
     /**
      * Process a fight
@@ -52,6 +43,24 @@ class Fight
           Fighter::processDamages($attack_matrix, $battlefield);
           
         }
+        
+        $result = Fighter::getDefenseResult($defender, $attack_matrix);
+        
+        $purcent = Fighter::getPurcentStolen($defender, $result);
+        
+        //now calc the exact number of stolen res
+        $currentres = $defender->getStronghold()->getResources();
+        $costs = array();
+        foreach(Resources::getResourcesTypes() as $ressourcetype){
+          
+          $valuestolen = $currentres[$ressourcetype] * $purcent;
+          $costs[$ressourcetype] = $valuestolen;
+          
+        }
+        
+        Resources::subtractResources($currentres, $cost);
+        
+        //todo : process the ressources given to the attacker
         
     }
     

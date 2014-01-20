@@ -63,6 +63,13 @@ class StrongholdLevel
      */
     private $strongholdInstances;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="columnlife", type="integer")
+     */
+    private $columlife;
+
 
     /**
      * Constructor
@@ -172,6 +179,29 @@ class StrongholdLevel
     public function getLinesCount()
     {
         return $this->linesCount;
+    }
+
+    /**
+     * Set columlife
+     *
+     * @param integer $columlife
+     * @return StrongholdLevel
+     */
+    public function setColumnLife($columlife)
+    {
+        $this->columlife = $columlife;
+
+        return $this;
+    }
+
+    /**
+     * Get columlife
+     *
+     * @return integer 
+     */
+    public function getColumnLife()
+    {
+        return $this->columlife;
     }
 
     /**

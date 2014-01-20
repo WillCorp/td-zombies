@@ -4,6 +4,8 @@ namespace WillCorp\ZombieBundle\Game\Helper;
 
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
 use WillCorp\ZombieBundle\Entity\UnitLevel;
+use WillCorp\ZombieBundle\Entity\Player;
+use WillCorp\ZombieBundle\Entity\UnitLevel;
 /**
  * Class Resources
  *
@@ -13,9 +15,9 @@ class Fighter
 {
 
     const ROUND = "round";
-    const SPEED = "speed";
     const COLUMN = "column";
-    const HEALTH = "health";
+    const UNIT = "unit";
+    const BUILDING = "building";
     const FINISHED = "finished";
 
     /**
@@ -53,16 +55,16 @@ class Fighter
      */
     public static function moveAttachers(&$attack_matrix, $finalRound){
       
-      foreach($attack_matrix as $unitid => &$unitInfos){
+      foreach($attack_matrix as &$unitInfos){
         
         if(!self::isFINISHED($unitInfos)){
           continue;
         }
         
-        $unitInfos[self::ROUND] += $unitInfos[self::SPEED];
+        $unitInfos[self::ROUND] += $unitInfos[self::UNIT]->getSpeed();
 
         if($unitInfos[self::ROUND] == $finalRound)
-          $unitInfos[self::FINISHED] = false;
+          $unitInfos[self::FINISHED] = true;
         
       }
       
@@ -75,26 +77,49 @@ class Fighter
      * @return boolean
      */
     public static function isFINISHED($unitInfos){
-      return ( $unitInfos[self::FINISHED] !== false ) && ( $unitInfos[self::HEALTH] > 0 ); 
+      return ( $unitInfos[self::FINISHED] == false ) && ( $unitInfos[self::UNIT]->getHealth() > 0 ); 
     }
     
     /**
-     * Deal damage to unit on a building spot
+     * Deal damage to unit on a building spot. Also decrement the corresponding building's unit count
      * 
      * @param array $attack_matrix
      * @param array $battlefield
+     * 
      */
     public static function processDamages(&$attack_matrix, $battlefield){
       
-      foreach($attack_matrix as $unitid => &$unitInfos){
+      
+      foreach($attack_matrix as &$unitInfos){
+        
+        if($unitInfos[self::UNIT]->getHealth() <= 0){
+          continue;
+        }
         
         if($buildinginstance = $battlefield[$unitInfos[self::ROUND]][$unitInfos[self::COLUMN]] !== false){
-          $unitInfos[self::HEALTH] -= $buildinginstance->getLevel()->getDefense();//deal damages to the unit
-          
+          $unitInfos[self::UNIT]->getHealth() -= $buildinginstance->getLevel()->getDefense();//deal damages to the unit
         }
-          
+
+        if($unitInfos[self::UNIT]->getHealth() <= 0){
+          self::unitCountDecrement($unitInfos[self::BUILDING]);
+        }
       }
       
+    }
+    
+    /**
+     * Decrement te unit count of the given building
+     * 
+     * @param BuildingInstance $building
+     * 
+     * @throws \Exception If we try to decrement a unit count under 0
+     */
+    public static function unitCountDecrement(BuildingInstance $building){
+      if($nbcurrent = $building->getUnitCount()<=0){
+        throw new \Exception('There is no unit anymore !');
+      }
+      
+      $building->setUnitCount($nbcurrent-1);
     }
     
     /**
@@ -105,28 +130,72 @@ class Fighter
      * @param int $round
      * @param int $column
      */
-    public static function setUnitPosition(&$attack_matrix, UnitLevel $unit, $round, $column){
+    public static function setUnitPosition(&$attack_matrix, BuildingInstance $building, $round, $column){
       
-      $attack_matrix[self::ROUND] = $round;
-      $attack_matrix[self::COLUMN] = $column;
-      $attack_matrix[self::FINISHED] = true;
-      $attack_matrix[self::HEALTH] = $unit->getHealth();
-      $attack_matrix[self::ROUND] = $unit->getSpeed();
+      $arrayunit[self::ROUND] = $round;
+      $arrayunit[self::COLUMN] = $column;
+      $arrayunit[self::FINISHED] = false;
+      $arrayunit[self::UNIT] = $building->getLevel()->getUnit();
+      $arrayunit[self::BUILDING] = $building;
       
+      $attack_matrix[] = $arrayunit;
       
     }
     
     /**
-     * Return true if the defending player won the fight or not
-     * 
-     * TODO : define how a player can lose
+     * Return all the fallen column
      * 
      * @param Player $defender
      * @param array $attack_matrix
+     * 
+     * @return array The number list of fallen column
+     * 
      */
-    public static function isDefenseSucced(Player $defender, array $attack_matrix){
+    public static function getDefenseResult(Player $defender, array $attack_matrix){
       
+      //get how many units succed to reach the end
+      $array_countbycolumn = array();
       
+      foreach($attack_matrix as $unitInfos){
+        if($unitInfos[self::FINISHED]){
+          $array_countbycolumn[$unitInfos[self::COLUMN]] += $unitInfos[self::UNIT]->getDamages();
+        }
+      }
+      
+      $columnCount = $defender->getStronghold()->getLevel()->getColumnsCount();
+      
+      $number_fallen = array();//create a list of all fallend colum
+      for($i=0; $i < $columnCount; $i++){
+        if(count($array_countbycolumn[$i]) > $defender->getStronghold()->getLevel()->getColumnLife() )
+          $number_fallen[] = $i;
+      }
+      
+      return $number_fallen;
+      
+    }
+    
+    /**
+     * 
+     * Return how many purcent of ressources has been stolen with a given list of fallen column
+     * 
+     * @param Player $defender
+     * @param array $number_fallen A list with the index of fallen column
+     * 
+     * @return
+     */
+    public static function getPurcentStolen(Player $defender, $number_fallen){
+      
+      //get the purcent setted by the player first
+      $distribution = $defender->getStronghold()->getColumns();
+      
+      $purcent = 0;
+      foreach($number_fallen as $indexfallen){
+        if(isset($distribution[$indexfallen])){
+          $purcent += $distribution[$indexfallen];
+        }
+      }
+      
+      return $purcent / 100;
       
     }
     

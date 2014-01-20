@@ -37,7 +37,8 @@ class LoadStrongholdLevelData extends AbstractFixture implements OrderedFixtureI
                 ))
                 ->setBuildingMaxLevel($i)
                 ->setColumnsCount($i + 2)
-                ->setLinesCount($i + 5);
+                ->setLinesCount($i + 5)
+                ->setColumnLife($i * 2);
 
             $manager->persist($level);
 
