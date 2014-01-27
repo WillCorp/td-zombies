@@ -16,7 +16,6 @@ use WillCorp\ZombieBundle\Entity\BuildingInstance;
 class Fight
 {
 
-    
     /**
      * Matrix with units and defenses positions
      * 
@@ -27,7 +26,7 @@ class Fight
     /**
      * Process a fight
      */
-    public function processFighting(Player $defender, array $attack_matrix)
+    public function processFighting(Player $defender, Player $attackers, array $attack_matrix)
     {
         
         //start by initiating the matrix with defenses
@@ -36,16 +35,18 @@ class Fight
         //get the final round
         $finalRound = $defender->getStronghold()->getLevel()->getLinesCount();
         
+        $i = 0;
         while(!Fighter::isFinished($attack_matrix)){ // while the fight isn't finished, procces a round
+
+          $attack_matrix = Fighter::moveAttachers($attack_matrix, $finalRound);
           
-          Fighter::moveAttachers($attack_matrix, $finalRound);
-          
-          Fighter::processDamages($attack_matrix, $battlefield);
+          $attack_matrix = Fighter::processDamages($attack_matrix, $this->battlefield);
+          $i++;
           
         }
         
         $result = Fighter::getDefenseResult($defender, $attack_matrix);
-        
+
         $purcent = Fighter::getPurcentStolen($defender, $result);
         
         //now calc the exact number of stolen res
@@ -58,9 +59,15 @@ class Fight
           
         }
         
-        Resources::subtractResources($currentres, $cost);
+        //substract ressources to the defender
+        $finalsupply = Resources::subtractResources($currentres, $costs);
+        $defender->getStronghold()->setResources($finalsupply);
         
-        //todo : process the ressources given to the attacker
+        //and add the same amount to the attacker
+        $finalsupply = Resources::addResources($currentres, $costs);
+        $attackers->getStronghold()->setResources($finalsupply);
+        
+        return $purcent;//return the purcent stolen to display easier the battle result
         
     }
     
@@ -69,15 +76,15 @@ class Fight
      * 
      * @param Player $defender
      */
-    private function initMatrix(Player $defender)
+    public function initMatrix(Player $defender)
     {
       
       //init the matrix with the correct stronghold size
       $roundLength = $defender->getStronghold()->getLevel()->getLinesCount();
       $columnLength = $defender->getStronghold()->getLevel()->getColumnsCount();
 
-      for($round=0; $round<$roundLength; $round++){
-        for($column=0; $column<$columnLength; $column++){
+      for($round=1; $round<$roundLength; $round++){
+        for($column=1; $column<$columnLength; $column++){
           $this->battlefield[$round][$column] = false; //set the position as empty
         }
       }
@@ -93,14 +100,15 @@ class Fight
     {
       
       $this->initMatrix($defender);
+      
       //get all the defenses buildings
       foreach($defender->getStronghold()->getBuildings() as $buildinginstance){
 
         $roundStart = $buildinginstance->getRoundStart();
         $columnStart = $buildinginstance->getColumnStart();
 
-        $roundLength = $buildinginstance->getLevel()->getLinesCount();
-        $columnLength = $buildinginstance->getLevel()->getColumnsCount();
+        $roundLength = $buildinginstance->getLevel()->getRoundCount() + $roundStart;
+        $columnLength = $buildinginstance->getLevel()->getColumnsCount() + $columnStart;
         
         $this->battlefield[$roundStart][$columnStart] = $buildinginstance; //define the building here
         
@@ -112,6 +120,15 @@ class Fight
         
       }
       
+    }
+    
+    /**
+     * Simple battlefield getter
+     * 
+     * @return array
+     */
+    public function getBattelfield(){
+      return $this->battlefield;
     }
     
 }

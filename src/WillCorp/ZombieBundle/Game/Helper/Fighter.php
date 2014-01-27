@@ -5,7 +5,6 @@ namespace WillCorp\ZombieBundle\Game\Helper;
 use WillCorp\ZombieBundle\Entity\BuildingInstance;
 use WillCorp\ZombieBundle\Entity\UnitLevel;
 use WillCorp\ZombieBundle\Entity\Player;
-use WillCorp\ZombieBundle\Entity\UnitLevel;
 /**
  * Class Resources
  *
@@ -19,6 +18,7 @@ class Fighter
     const UNIT = "unit";
     const BUILDING = "building";
     const FINISHED = "finished";
+    const HEALTH = "health";
 
     /**
      * This class should not be instantiated
@@ -37,8 +37,8 @@ class Fighter
     {
       
       //if there is still some attacking unit, the battle isn't finished
-      foreach($attack_matrix as $unitid => &$unitInfos){
-        if(self::isFINISHED($unitInfos)){
+      foreach($attack_matrix as $unitid => $unitInfos){
+        if(self::isUnitCanMove($unitInfos)){
           return false;
         }
       }
@@ -52,32 +52,50 @@ class Fighter
      * 
      * @param array $attack_matrix
      * @param the number of round of the current stronghold $finalRound
+     * 
+     * @return array a new attack matrix with correct information
      */
-    public static function moveAttachers(&$attack_matrix, $finalRound){
+    public static function moveAttachers($attack_matrix, $finalRound){
       
-      foreach($attack_matrix as &$unitInfos){
+      $new_matrix = array();
+      foreach($attack_matrix as $unitInfos){
         
-        if(!self::isFINISHED($unitInfos)){
+        if(!self::isUnitCanMove($unitInfos)){
+          $new_matrix[] = $unitInfos;
           continue;
         }
         
         $unitInfos[self::ROUND] += $unitInfos[self::UNIT]->getSpeed();
 
-        if($unitInfos[self::ROUND] == $finalRound)
+        if($unitInfos[self::ROUND] >= $finalRound){
           $unitInfos[self::FINISHED] = true;
-        
+        }
+
+        $new_matrix[] = $unitInfos;
       }
       
+      return $new_matrix;
     }
     
     /**
-     * Check if a given unit is still alive and didn't reach the end of the battlfield
+     * Check if a given unit can move (i.e. is not to the end and have some hp)
      * 
      * @param unknown $unitInfos
      * @return boolean
      */
-    public static function isFINISHED($unitInfos){
-      return ( $unitInfos[self::FINISHED] == false ) && ( $unitInfos[self::UNIT]->getHealth() > 0 ); 
+    public static function isUnitCanMove($unitInfos){
+      return ( ( $unitInfos[self::FINISHED] !== true ) && ( $unitInfos[self::HEALTH] > 0 ) ); 
+    }
+    
+    /**
+     * Check if a given unit is in the battlefield
+     * 
+     * @param array $unitInfos
+     * @param array $battlefield
+     * @return boolean
+     */
+    public static function isUnitInBattlefield($unitInfos, $battlefield){
+      return ( isset($battlefield[$unitInfos[self::ROUND]]) && isset($battlefield[$unitInfos[self::ROUND]][$unitInfos[self::COLUMN]]) ); 
     }
     
     /**
@@ -86,24 +104,33 @@ class Fighter
      * @param array $attack_matrix
      * @param array $battlefield
      * 
+     * @return array a new attack matrix with correct health
+     * 
      */
-    public static function processDamages(&$attack_matrix, $battlefield){
+    public static function processDamages($attack_matrix, $battlefield){
+
+      $new_matrix = array();
       
-      
-      foreach($attack_matrix as &$unitInfos){
+      foreach($attack_matrix as $unitInfos){
         
-        if($unitInfos[self::UNIT]->getHealth() <= 0){
+        if(!self::isUnitCanMove($unitInfos)){
+          $new_matrix[] = $unitInfos;
           continue;
         }
         
-        if($buildinginstance = $battlefield[$unitInfos[self::ROUND]][$unitInfos[self::COLUMN]] !== false){
-          $unitInfos[self::UNIT]->getHealth() -= $buildinginstance->getLevel()->getDefense();//deal damages to the unit
+        if( self::isUnitInBattlefield($unitInfos, $battlefield) &&
+            ($buildinginstance = $battlefield[$unitInfos[self::ROUND]][$unitInfos[self::COLUMN]]) !== false){
+          $unitInfos[self::HEALTH] -= $buildinginstance->getLevel()->getDefense();//deal damages to the unit
         }
-
-        if($unitInfos[self::UNIT]->getHealth() <= 0){
+        
+        if($unitInfos[self::HEALTH] <= 0){
           self::unitCountDecrement($unitInfos[self::BUILDING]);
         }
+      
+        $new_matrix[] = $unitInfos;
       }
+      
+      return $new_matrix;
       
     }
     
@@ -115,7 +142,7 @@ class Fighter
      * @throws \Exception If we try to decrement a unit count under 0
      */
     public static function unitCountDecrement(BuildingInstance $building){
-      if($nbcurrent = $building->getUnitCount()<=0){
+      if( ($nbcurrent = $building->getUnitCount() ) <=0){
         throw new \Exception('There is no unit anymore !');
       }
       
@@ -130,15 +157,18 @@ class Fighter
      * @param int $round
      * @param int $column
      */
-    public static function setUnitPosition(&$attack_matrix, BuildingInstance $building, $round, $column){
+    public static function setUnitPosition(BuildingInstance $building, $round, $column){
+      
+      $arrayunit = array();
       
       $arrayunit[self::ROUND] = $round;
       $arrayunit[self::COLUMN] = $column;
       $arrayunit[self::FINISHED] = false;
       $arrayunit[self::UNIT] = $building->getLevel()->getUnit();
       $arrayunit[self::BUILDING] = $building;
+      $arrayunit[self::HEALTH] = $building->getLevel()->getUnit()->getHealth();
       
-      $attack_matrix[] = $arrayunit;
+      return $arrayunit;
       
     }
     
@@ -156,20 +186,28 @@ class Fighter
       //get how many units succed to reach the end
       $array_countbycolumn = array();
       
+      //var_dump("coucou" ,$attack_matrix);
       foreach($attack_matrix as $unitInfos){
         if($unitInfos[self::FINISHED]){
+          //if this column has never been initialised, set it to 0
+          if( !isset($array_countbycolumn[$unitInfos[self::COLUMN]]) ){
+            $array_countbycolumn[$unitInfos[self::COLUMN]] = 0;
+          }
+          
           $array_countbycolumn[$unitInfos[self::COLUMN]] += $unitInfos[self::UNIT]->getDamages();
         }
       }
       
       $columnCount = $defender->getStronghold()->getLevel()->getColumnsCount();
+      $columnlife = $defender->getStronghold()->getLevel()->getColumnLife();
       
       $number_fallen = array();//create a list of all fallend colum
-      for($i=0; $i < $columnCount; $i++){
-        if(count($array_countbycolumn[$i]) > $defender->getStronghold()->getLevel()->getColumnLife() )
+      for($i=1; $i <= $columnCount; $i++){
+        if(isset($array_countbycolumn[$i]) &&
+          ($array_countbycolumn[$i] > $columnlife) ){
           $number_fallen[] = $i;
+        }
       }
-      
       return $number_fallen;
       
     }
@@ -184,10 +222,10 @@ class Fighter
      * @return
      */
     public static function getPurcentStolen(Player $defender, $number_fallen){
-      
+
       //get the purcent setted by the player first
       $distribution = $defender->getStronghold()->getColumns();
-      
+
       $purcent = 0;
       foreach($number_fallen as $indexfallen){
         if(isset($distribution[$indexfallen])){

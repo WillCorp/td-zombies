@@ -57,7 +57,7 @@ final class Resources
     }
 
     /**
-     * Indicates whether there is enough resources in $disposal to handle $cost
+     * Substract the given cost ressources to the supply
      *
      * @param array $supply The resources supply
      * @param array $cost   The resources cost
@@ -75,6 +75,26 @@ final class Resources
         $newSupply = $supply;
         foreach ($cost as $resource => $value) {
             $newSupply[$resource] = $newSupply[$resource] - $value;
+        }
+
+        return $newSupply;
+    }
+
+    /**
+     * Add the given cost ressources to the supply
+     *
+     * @param array $supply The resources supply
+     * @param array $cost   The resources cost
+     *
+     * @return array
+     * @throws \Exception If there is a missing resource in $supply
+     */
+    public static function addResources(array $supply, array $cost)
+    {
+      
+        $newSupply = $supply;
+        foreach ($cost as $resource => $value) {
+            $newSupply[$resource] = $newSupply[$resource] + $value;
         }
 
         return $newSupply;
